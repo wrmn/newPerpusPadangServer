@@ -150,7 +150,7 @@
                                     @php
                                         $i = 0;
                                     @endphp
-                                    @foreach ($memberRes->borrowDetail as $item)
+                                    @foreach ($borrowRes as $item)
                                         @php
                                             $dateBorrow = new DateTime($item->tanggal_peminjaman);
                                             $dateReturn = '';
@@ -236,7 +236,7 @@
                                         $i = 0;
                                     @endphp
     
-                                    @foreach ($memberRes->visitDetail as $item)
+                                    @foreach ($visitRes as $item)
                                         @php
                                             $date = new DateTime($item->waktu_kunjungan);
                                         @endphp

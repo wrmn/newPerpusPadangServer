@@ -60,8 +60,10 @@ class MemberController extends Controller
     public function show($no)
     {
         $memberRes = Member::find($no);
+        $visitRes = Member::find($no)->visitDetail()->orderBy('waktu_kunjungan', 'desc')->get();
+        $borrowRes = Member::find($no)->borrowDetail()->orderBy('tanggal_peminjaman', 'desc')->get();
 
-        return view('admin.member.detail',  compact('memberRes'));
+        return view('admin.member.detail',  compact('memberRes', 'visitRes', 'borrowRes'));
     }
 
     /**
