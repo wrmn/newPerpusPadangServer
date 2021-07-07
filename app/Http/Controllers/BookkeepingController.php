@@ -39,6 +39,26 @@ class BookkeepingController extends Controller
     }
 
     /**
+     * Menampilkan list pemukuan
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function print()
+    {
+        $bookkeepingsRes = Bookkeeping::get();
+
+        foreach ($bookkeepingsRes as $bookkeeping) {
+            $bookCount = Book::select(DB::raw('count(*) as total'))
+                ->where('no_ik_jk', '=', $bookkeeping->no_ik_jk)
+                ->first();
+
+            $bookkeeping->count = $bookCount->total;
+        }
+
+        return view('admin.bookkeeping.print',  compact('bookkeepingsRes'));
+    }
+
+    /**
      * Menampilkan form menambahkan pembukuan baru
      *
      * @return \Illuminate\Http\Response
@@ -49,6 +69,26 @@ class BookkeepingController extends Controller
         return view('admin.bookkeeping.form',  compact('add'));
     }
 
+
+    /**
+     * Menampilkan form menambahkan pembukuan baru
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listBook($bookkeeping)
+    {
+        $link = str_replace("&", "/", $bookkeeping);
+        $booksRes = Book::where('no_ik_jk', $link)->paginate(10);
+
+        $bookkeepingInfo = Bookkeeping::find($link);
+
+        session()->forget('forms.title');
+        session()->forget('forms.author');
+        session()->put('forms.ddc', "10");
+
+        return view('admin.book.table',  compact('booksRes', 'bookkeepingInfo'));
+    }
+
     /**
      * Menyimpan data pembukuan baru
      *
@@ -57,7 +97,11 @@ class BookkeepingController extends Controller
     public function store()
     {
         $validator = Validator::make(request()->all(), [
-            'no_ik_jk' => 'required|max:40|unique:bookkeepings',
+            'no_ik_jk' => array(
+                'required',
+                'unique:bookkeepings',
+                'regex:/^[\/0-9A-Z.]+$/u'
+            ),
             'tanggal' => 'required|max:255',
             'sumber' => 'required|max:255',
         ]);
@@ -115,5 +159,20 @@ class BookkeepingController extends Controller
         $bookkeepingRes->save();
 
         return redirect("admin/bookkeepings")->with('success', "Pembukuan $link berhasil diperbarui");;
+    }
+
+    /**
+     * Menampilkan form menambahkan pembukuan baru
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function printBook($bookkeeping)
+    {
+        $link = str_replace("&", "/", $bookkeeping);
+        $booksRes = Book::where('no_ik_jk', $link)->get();
+
+        $bookkeepingInfo = Bookkeeping::find($link);
+
+        return view('admin.book.printAll',  compact('booksRes', 'bookkeepingInfo'));
     }
 }

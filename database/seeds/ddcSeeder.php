@@ -47,6 +47,7 @@ class ddcSeeder extends Seeder
                     'ddc' => $id,
                     'group' => $name[$i],
                     'nama' => $faker->realText(10),
+                    'created_at' => now(),
                 ];
             }
         }

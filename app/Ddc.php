@@ -12,4 +12,9 @@ class Ddc extends Model
     protected $fillable = [
         'nama'
     ];
+
+    public function bookDetail()
+    {
+        return $this->hasMany('App\Book', 'ddc');
+    }
 }

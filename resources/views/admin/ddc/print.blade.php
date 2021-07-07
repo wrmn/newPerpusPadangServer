@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.print')
 
 @section('content')
     <div class="container">
@@ -6,10 +6,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success alert-dismissible fade show">{!! \Session::get('success') !!}
-                            </div>
-                        @endif
                         <table class="table">
                             <thead>
                                 <tr>
@@ -17,7 +13,8 @@
                                     <th scope="col">Group</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">Jumlah Buku</th>
-                                    <th scope="col">Act.</th>
+                                    <th scope="col">Ditambahkan</th>
+                                    <th scope="col">Diperbarui</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,25 +36,13 @@
                                         <td>{{ $caseDesc }}</td>
                                         <td>{{ $caseName }}</td>
                                         <td>{{ $item->total }}</td>
-                                        <td width="20%">
-                                            <a href="{{ url("/admin/ddc/detail/$id ") }}" class="btn btn-primary"
-                                                data-toggle="tooltip" data-placement="bottom" title="Lihat Buku">
-                                                <i class="fa fa-book">
-
-                                                </i>
-                                            </a>
-                                            <a href="{{ url("/admin/ddc/edit/$id ") }}" class="btn btn-primary"
-                                                data-toggle="tooltip" data-placement="bottom" title="Edit">
-                                                <i class="fa fa-pencil">
-
-                                                </i>
-                                            </a>
-                                        </td>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ $item->updated_at }}</td>
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $ddcList->links() }}
                     </div>
                 </div>
             </div>

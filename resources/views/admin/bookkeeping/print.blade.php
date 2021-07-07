@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.print')
 
 @section('content')
     <div class="container">
@@ -6,19 +6,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success alert-dismissible fade show">{!! \Session::get('success') !!}
-                            </div>
-                        @endif
-                        <a href="{{ url('/admin/bookkeepings/print') }}" class="btn btn-primary"> <i class="fa fa-file"></i>
-                            Cetak Laporan</a>
-                        <div class="pull-right">
-                            <a href="{{ url('/admin/bookkeeping/new') }}" class="btn btn-success">
-                                <i class="fa fa-plus">
-                                </i>
-                                &nbsp;Tambah
-                            </a>
-                        </div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -27,7 +14,8 @@
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Sumber</th>
                                     <th scope="col">Jumlah</th>
-                                    <th scope="col">Act.</th>
+                                    <th scope="col">Dibuat</th>
+                                    <th scope="col">Diperbaru</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,6 +26,8 @@
                                     @php
                                         $i++;
                                         $date = new DateTime($item->tanggal);
+                                        $dateC = new DateTime($item->created_at);
+                                        $dateU = new DateTime($item->updated_at);
                                         $link = str_replace('/', '&', $item->no_ik_jk);
                                         
                                     @endphp
@@ -47,24 +37,13 @@
                                         <td>{{ $date->format('d M Y') }} </td>
                                         <td>{{ $item->sumber }}</td>
                                         <td>{{ $item->count }}</td>
-                                        <td width="20%">
-                                            <a href="{{ url("/admin/bookkeeping/book/$link") }}"
-                                                class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                                                title="Lihat Buku">
-                                                <i class="fa fa-book">
-                                                </i>
-                                            </a>
-                                            <a href="{{ url("/admin/bookkeeping/edit/$link") }}" class="btn btn-primary"
-                                                data-toggle="tooltip" data-placement="bottom" title="Edit Data">
-                                                <i class="fa fa-pencil">
-                                                </i>
-                                            </a>
-                                        </td>
+                                        <td>{{ $dateC->format('d-M-Y H:i') }}</td>
+                                        <td>{{ $dateU->format('d-M-Y H:i') }}</td>
+
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $bookkeepingsRes->links() }}
                     </div>
                 </div>
             </div>

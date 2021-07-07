@@ -124,7 +124,7 @@ class BorrowController extends Controller
      */
     public function finePay($id)
     {
-        
+
         $borrowRes = Borrow::find($id);
         $borrowRes->tanggal_pembayaran = now();
         $borrowRes->save();
@@ -132,5 +132,23 @@ class BorrowController extends Controller
         $bookRes = Book::find($borrowRes->book_id);
 
         return redirect()->back()->with('success', "Denda peminjaman $bookRes->judul telah dibayar");
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function print()
+    {
+        echo request('bulan');
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        echo request('bulan');
     }
 }

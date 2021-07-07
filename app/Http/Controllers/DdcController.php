@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Ddc;
+use App\Book;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DdcController extends Controller
 {
@@ -22,7 +24,8 @@ class DdcController extends Controller
         $ddcGroups = Ddc::select('group')
             ->groupBy('group')
             ->get();
-        return view('admin.ddc.tableGroup',  compact('ddcGroups'));
+        $ddcs = Ddc::get();
+        return view('admin.ddc.tableGroup',  compact('ddcGroups', 'ddcs'));
     }
 
     /**
@@ -35,44 +38,51 @@ class DdcController extends Controller
         $tlimit = $num * 100;
         $blimit = $num * 100 - 100;
 
-        $ddcList = Ddc::select('ddc', 'group', 'nama')
-            ->where('ddc', '<', $tlimit)
+        if ($num == 0) {
+            $blimit = 0;
+            $tlimit = 1000;
+        }
+
+        $ddcList = Ddc::where('ddc', '<', $tlimit)
             ->where('ddc', '>=', $blimit)
             ->orderBy('ddc')
             ->paginate(10);
+        foreach ($ddcList as $item) {
+            $totalBook = Ddc::find($item->ddc)
+                ->bookDetail()
+                ->select(DB::raw('count(*) as total'))
+                ->first();
+            $item['total'] = $totalBook->total;
+        }
         return view('admin.ddc.table',  compact('ddcList'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Ddc  $ddc
      * @return \Illuminate\Http\Response
      */
-    public function show(Ddc $ddc)
+    public function search()
     {
-        //
+        $ddc = request('ddc');
+        return $this->searchBook($ddc);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function searchBook($ddc)
+    {
+        $booksRes = Book::where('ddc', $ddc)->paginate(10);
+        $ddcInfo = Ddc::find($ddc);
+
+        session()->forget('forms.title');
+        session()->forget('forms.author');
+        session()->put('forms.ddc', "10");
+
+        return view('admin.book.table',  compact('booksRes', 'ddcInfo'));
     }
 
     /**
@@ -95,8 +105,8 @@ class DdcController extends Controller
         $ddcRes->nama = request('nama');
         $ddcRes->save();
 
-        $idx =  intval($ddc/100)+1;
-        $page = intval(($ddc-(($idx-1)*100))/10)+1;
+        $idx =  intval($ddc / 100) + 1;
+        $page = intval(($ddc - (($idx - 1) * 100)) / 10) + 1;
 
         return redirect("admin/ddcs/$idx?page=$page")->with('success', "Ddc $ddc berhasil diperbarui");;
     }
@@ -113,14 +123,35 @@ class DdcController extends Controller
         return view('admin.ddc.form',  compact('ddcRes'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ddc  $ddc
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ddc $ddc)
+    public function printDdc($ddc)
     {
-        //
+        $booksRes = Book::where('ddc', $ddc)->get();
+        $ddcInfo = Ddc::find($ddc);
+
+        return view('admin.book.printAll',  compact('booksRes', 'ddcInfo'));
+    }
+
+    public function print($num)
+    {
+        $tlimit = $num * 100;
+        $blimit = $num * 100 - 100;
+
+        if ($num == 0) {
+            $blimit = 0;
+            $tlimit = 1000;
+        }
+
+        $ddcList = Ddc::where('ddc', '<', $tlimit)
+            ->where('ddc', '>=', $blimit)
+            ->orderBy('ddc')
+            ->get();
+        foreach ($ddcList as $item) {
+            $totalBook = Ddc::find($item->ddc)
+                ->bookDetail()
+                ->select(DB::raw('count(*) as total'))
+                ->first();
+            $item['total'] = $totalBook->total;
+        }
+        return view('admin.ddc.print',  compact('ddcList'));
     }
 }

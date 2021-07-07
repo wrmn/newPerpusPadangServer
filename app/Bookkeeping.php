@@ -14,4 +14,8 @@ class Bookkeeping extends Model
         'no_ik_jk', 'tanggal', 'sumber'
     ];
 
+    public function bookDetail()
+    {
+        return $this->hasMany('App\Book', 'no_ik_jk');
+    }
 }

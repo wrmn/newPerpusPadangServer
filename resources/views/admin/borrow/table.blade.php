@@ -15,7 +15,7 @@
                             <div class="alert alert-success alert-dismissible fade show">{!! \Session::get('success') !!}
                             </div>
                         @endif
-                        <form method="GET" action="/borrows/search">
+                        <form method="GET" action="/admin/borrows/search">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -27,16 +27,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Peminjaman Dari Tanggal</label>
-                                        <input type="date" class="form-control" name="fromB">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Hingga Tanggal</label>
-                                        <input type="date" class="form-control" name="toB">
-                                    </div>
+                                    <label for="bulan">Bulan Peminjaman</label>
+                                    <input type="month" class="form-control" id="bulan" name="bulan">
                                 </div>
                             </div>
                             <div class="form-group pull-right">
@@ -109,8 +101,9 @@
                                                 </a>
                                             @endif
                                             @if ($item->status_denda && $datePayment == '')
-                                                <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}" class="btn btn-primary"
-                                                    data-toggle="tooltip" data-placement="bottom" title="Bayar Denda">
+                                                <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}"
+                                                    class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                                    title="Bayar Denda">
                                                     <i class="fa fa-money">
 
                                                     </i>

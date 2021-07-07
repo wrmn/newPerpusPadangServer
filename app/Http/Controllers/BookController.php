@@ -19,6 +19,7 @@ class BookController extends Controller
         'harga' => 'required',
         'cover' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
     ];
+
     /**
      * Memastikan user login sebelum mengakses fungsi
      *
@@ -27,6 +28,7 @@ class BookController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +42,18 @@ class BookController extends Controller
         $booksRes = Book::paginate(10);
 
         return view('admin.book.table',  compact('booksRes'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function printAll()
+    {
+        $booksRes = Book::get();
+
+        return view('admin.book.printAll',  compact('booksRes'));
     }
 
     /**
@@ -100,7 +114,7 @@ class BookController extends Controller
         return view('admin.book.detail',  compact('bookRes'));
     }
 
-     /**
+    /**
      * Display the specified resource.
      *
      * @param  \App\Book  $book

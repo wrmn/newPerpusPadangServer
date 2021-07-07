@@ -8,7 +8,26 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col">
-                                <a href="{{ url('/books/print') }}" class="btn btn-primary"> <i class="fa fa-file"></i>
+                                <a @if ($ddcInfo ?? '') @php
+                                    
+                                    if ($ddcInfo->ddc < 10) {
+                                        $id = "00{$ddcInfo->ddc}";
+                                    } elseif ($ddcInfo->ddc < 100) {
+                                        $id = "0{$ddcInfo->ddc}";
+                                    } else {
+                                        $id = "{$ddcInfo->ddc}";
+                                    }
+                                @endphp
+                                                            href="{{ url("/admin/ddc/print/$id") }}" 
+                                                
+                                            @elseif ($bookkeepingInfo ?? '') 
+                                                    @php
+                                                        $date = new DateTime($bookkeepingInfo->tanggal);
+                                                        $link = str_replace('/', '&', $bookkeepingInfo->no_ik_jk);
+                                                    @endphp
+                                                    href="{{ url("/admin/bookkeeping/print/$link") }}" 
+                                                        @else
+                                                                    href="{{ url('/admin/books/print') }}" @endif class="btn btn-primary"> <i class="fa fa-file"></i>
                                     Cetak
                                     Laporan</a>
                             </div>
@@ -25,49 +44,82 @@
                             <div class="alert alert-success alert-dismissible fade show">{!! \Session::get('success') !!}
                             </div>
                         @endif
-                        <form method="GET" action="/admin/books/search">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Judul</label>
-                                        <input type="text" class="form-control" name="title" @if (session('forms.title')) value="{{ session('forms.title') }}" @endif>
+                        @if ($ddcInfo ?? '')
+                            <table class="table">
+                                <tr>
+                                    <th scope="row" width="20%">Ddc</th>
+                                    <td>{{ $ddcInfo->ddc }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Group</th>
+                                    <td>{{ $ddcInfo->group }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Kategori</th>
+                                    <td>{{ $ddcInfo->nama }}</td>
+                                </tr>
+                            </table>
+                        @elseif ($bookkeepingInfo ?? '')
+
+                            <table class="table">
+                                <tr>
+                                    <th scope="row" width="20%">No. IK JK</th>
+                                    <td>{{ $bookkeepingInfo->no_ik_jk }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Tanggal</th>
+                                    <td>{{ $date->format('d M Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Sumber</th>
+                                    <td>{{ $bookkeepingInfo->sumber }}</td>
+                                </tr>
+                            </table>
+                        @else
+                            <form method="GET" action="/admin/books/search">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Judul</label>
+                                            <input type="text" class="form-control" name="title" @if (session('forms.title')) value="{{ session('forms.title') }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Pengarang</label>
+                                            <input type="text" class="form-control" name="author" @if (session('forms.author')) value="{{ session('forms.author') }}" @endif>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Pengarang</label>
-                                        <input type="text" class="form-control" name="author" @if (session('forms.author')) value="{{ session('forms.author') }}" @endif>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="ddcForm">DDC </label>
-                                    <select class="form-control" id="ddcForm" name="ddc">
-                                        <option value="10" @if (session('forms.ddc') == 10) selected="selected" @endif>
-                                            Semua Kategori
-                                        </option>
-                                        @php
-                                            $lists = ['000-099 Karya Umum', '100-199 Filsafat', '200-299 Agama', '300-399 Ilmu Sosial', '400-499 Bahasa', '500-599 Ilmu Murni', '600-699 Ilmu Terapan', '700-799 Seni dan Olahraga', '800-899 Kesusastraan', '900-999 Sejarah dan Geografi'];
-                                            $i = 0;
-                                        @endphp
-                                        @foreach ($lists as $item)
-                                            <option value="{{ $i }}" @if (session('forms.ddc') == $i) selected="selected" @endif>
-                                                {{ $item }}
+                                        <label for="ddcForm">DDC </label>
+                                        <select class="form-control" id="ddcForm" name="ddc">
+                                            <option value="10" @if (session('forms.ddc') == 10) selected="selected" @endif>
+                                                Semua Kategori
                                             </option>
                                             @php
-                                                $i++;
+                                                $lists = ['000-099 Karya Umum', '100-199 Filsafat', '200-299 Agama', '300-399 Ilmu Sosial', '400-499 Bahasa', '500-599 Ilmu Murni', '600-699 Ilmu Terapan', '700-799 Seni dan Olahraga', '800-899 Kesusastraan', '900-999 Sejarah dan Geografi'];
+                                                $i = 0;
                                             @endphp
-                                        @endforeach
-                                    </select>
+                                            @foreach ($lists as $item)
+                                                <option value="{{ $i }}" @if (session('forms.ddc') == $i) selected="selected" @endif>
+                                                    {{ $item }}
+                                                </option>
+                                                @php
+                                                    $i++;
+                                                @endphp
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group pull-right">
-                                <button class="btn btn-primary">Cari</button>
-                            </div>
+                                <div class="form-group pull-right">
+                                    <button class="btn btn-primary">Cari</button>
+                                </div>
 
-                        </form>
+                            </form>
+                        @endif
                         @if (count($booksRes) == 0)
                             Data empty
                         @else
@@ -106,8 +158,9 @@
 
                                                     </i>
                                                 </a>
-                                                <a href="{{ url("/admin/book/edit/$item->book_id") }}" class="btn btn-primary"
-                                                    data-toggle="tooltip" data-placement="bottom" title="Edit Buku">
+                                                <a href="{{ url("/admin/book/edit/$item->book_id") }}"
+                                                    class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
+                                                    title="Edit Buku">
                                                     <i class="fa fa-pencil">
 
                                                     </i>

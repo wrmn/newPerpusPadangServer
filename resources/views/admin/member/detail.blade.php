@@ -133,133 +133,137 @@
                             @endif
                         </div>
                         @if ($memberRes->verivied == 1)
-                        <h3>Peminjaman</h3>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No. Member</th>
-                                        <th scope="col">Buku</th>
-                                        <th scope="col">Terdenda</th>
-                                        <th scope="col">Terbayar</th>
-                                        <th scope="col">Tanggal Pinjam</th>
-                                        <th scope="col">Tanggal Kembali</th>
-                                        <th scope="col">Act.</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $i = 0;
-                                    @endphp
-                                    @foreach ($borrowRes as $item)
-                                        @php
-                                            $dateBorrow = new DateTime($item->tanggal_peminjaman);
-                                            $dateReturn = '';
-                                            $datePayment = '';
-                                            
-                                            if ($item->tanggal_pengembalian != '') {
-                                                $dateReturn = new DateTime($item->tanggal_pengembalian);
-                                            }
-                                            if ($item->tanggal_pembayaran != '') {
-                                                $datePayment = new DateTime($item->tanggal_pembayaran);
-                                            }
-                                        @endphp
+                            @if (count($borrowRes) != 0)
+                                <h3>Peminjaman</h3>
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <th scope="row">
-                                                <a href="{{ url("/admin/member/$item->member_no/detail") }}">{{ $item->member_no }}
-                                                </a>
-                                            </th>
-                                            <td>
-                                                <a href="{{ url("/admin/book/$item->book_id/detail") }}">
-                                                    {{ $item->bookDetail->ddc }}.{{ $item->bookDetail->no }}
-                                                </a>
-                                            </td>
-                                            <td class="text-center">
-                                                @if ($item->status_denda)
-                                                    <i class='fa fa-check'></i>
-                                                @endif
-                                            </td>
-                                            <td class="text-center">
-                                                @if ($item->tanggal_pembayaran != '' && $item->status_denda == true)
-                                                    <i class='fa fa-check'></i>
-                                                @endif
-                                            </td>
-                                            <td>{{ $dateBorrow->format('d M Y') }}</td>
-                                            <td>
-                                                @if ($dateReturn != '')
-                                                    {{ $dateReturn->format('d M Y') }}
-                                                @endif
-                                            </td>
-                                            <td width="20%">
-                                                @if ($dateReturn == '' && ($datePayment != '' || !$item->status_denda))
-                                                    <a href="{{ url("/admin/borrow/$item->borrow_id/return") }}"
-                                                        class="btn btn-success" data-toggle="tooltip"
-                                                        data-placement="bottom" title="Pengembalian Buku">
-                                                        <i class="fa fa-check">
-
-                                                        </i>
-                                                    </a>
-                                                @endif
-                                                @if ($item->status_denda && $datePayment == '')
-                                                    <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}"
-                                                        class="btn btn-primary" data-toggle="tooltip"
-                                                        data-placement="bottom" title="Bayar Denda">
-                                                        <i class="fa fa-money">
-
-                                                        </i>
-                                                    </a>
-                                                @endif
-                                                @if (!$item->status_denda && $dateReturn == '')
-                                                    <a href="{{ url("/admin/borrow/$item->borrow_id/fine") }}"
-                                                        class="btn btn-danger" data-toggle="tooltip" data-placement="bottom"
-                                                        title="Pemberian Denda">
-                                                        <i class="fa fa-money">
-
-                                                        </i>
-                                                    </a>
-                                                @endif
-                                            </td>
+                                            <th scope="col">No. Member</th>
+                                            <th scope="col">Buku</th>
+                                            <th scope="col">Terdenda</th>
+                                            <th scope="col">Terbayar</th>
+                                            <th scope="col">Tanggal Pinjam</th>
+                                            <th scope="col">Tanggal Kembali</th>
+                                            <th scope="col">Act.</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <h3>Kunjungan</h3>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No. Member</th>
-                                        <th scope="col">Nama Member</th>
-                                        <th scope="col">Waktu Kunjungan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $i = 0;
-                                    @endphp
-    
-                                    @foreach ($visitRes as $item)
+                                    </thead>
+                                    <tbody>
                                         @php
-                                            $date = new DateTime($item->waktu_kunjungan);
+                                            $i = 0;
                                         @endphp
+                                        @foreach ($borrowRes as $item)
+                                            @php
+                                                $dateBorrow = new DateTime($item->tanggal_peminjaman);
+                                                $dateReturn = '';
+                                                $datePayment = '';
+                                                
+                                                if ($item->tanggal_pengembalian != '') {
+                                                    $dateReturn = new DateTime($item->tanggal_pengembalian);
+                                                }
+                                                if ($item->tanggal_pembayaran != '') {
+                                                    $datePayment = new DateTime($item->tanggal_pembayaran);
+                                                }
+                                            @endphp
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="{{ url("/admin/member/$item->member_no/detail") }}">{{ $item->member_no }}
+                                                    </a>
+                                                </th>
+                                                <td>
+                                                    <a href="{{ url("/admin/book/$item->book_id/detail") }}">
+                                                        {{ $item->bookDetail->ddc }}.{{ $item->bookDetail->no }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">
+                                                    @if ($item->status_denda)
+                                                        <i class='fa fa-check'></i>
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    @if ($item->tanggal_pembayaran != '' && $item->status_denda == true)
+                                                        <i class='fa fa-check'></i>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $dateBorrow->format('d M Y') }}</td>
+                                                <td>
+                                                    @if ($dateReturn != '')
+                                                        {{ $dateReturn->format('d M Y') }}
+                                                    @endif
+                                                </td>
+                                                <td width="20%">
+                                                    @if ($dateReturn == '' && ($datePayment != '' || !$item->status_denda))
+                                                        <a href="{{ url("/admin/borrow/$item->borrow_id/return") }}"
+                                                            class="btn btn-success" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Pengembalii
+                                                                    i
+                                                                    </i>
+                                                                </a>
+                                                              @endif
+                                                            @if ($item->status_denda && $datePayment == '')
+                                                                <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}"
+                                                                    class="btn btn-primary" data-toggle="tooltip"
+                                                                    data-placement="bottom" title="Bayar Denda">
+                                                                    <i class="fa fa-money">
+
+                                                                    </i>
+                                                                </a>
+                                                            @endif
+                                                            @if (!$item->status_denda && $dateReturn == '')
+                                                                <a href="{{ url("/admin/borrow/$item->borrow_id/fine") }}"
+                                                                    class="btn btn-danger" data-toggle="tooltip"
+                                                                    data-placement="bottom" title="Pemberian Denda">
+                                                                    <i class="fa fa-money">
+
+                                                                    </i>
+                                                                </a>
+                                                            @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+
+                            @if (count($visitRes) != 0)
+                                <h3>Kunjungan</h3>
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <th>
-                                                @if ($item->memberDetail->status_terdaftar)
+                                            <th scope="col">No. Member</th>
+                                            <th scope="col">Nama Member</th>
+                                            <th scope="col">Waktu Kunjungan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $i = 0;
+                                        @endphp
+
+                                        @foreach ($visitRes as $item)
+                                            @php
+                                                $date = new DateTime($item->waktu_kunjungan);
+                                            @endphp
+                                            <tr>
+                                                <th>
+                                                    @if ($item->memberDetail->status_terdaftar)
+                                                        <a href="{{ url("/admin/member/$item->member_no/detail") }}">
+                                                            {{ $item->member_no }}
+                                                        </a>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </th>
+                                                <td>
                                                     <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                        {{ $item->member_no }}
+                                                        {{ $item->memberDetail->nama }}
                                                     </a>
-                                                @else
-                                                    -
-                                                @endif
-                                            </th>
-                                            <td>
-                                                <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                    {{ $item->memberDetail->nama }}
-                                                </a>
-                                            </td>
-                                            <td>{{ $date->format('H:i d M Y') }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                </td>
+                                                <td>{{ $date->format('H:i d M Y') }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
                         @endif
                     </div>
                 </div>

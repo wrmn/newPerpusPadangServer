@@ -16,26 +16,32 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/guest', function () {
     return view('guest.index');
-}); 
+});
 
 Route::get('/', function () {
     return view('guest.checkin');
 }); //menampilkan halaman checkin tamu
 
 Auth::routes(); //auth route untuk login admin
-Route::get('/logout', 'HomeController@logout');// logout dari akun admin
+Route::get('/logout', 'HomeController@logout'); // logout dari akun admin
 
 Route::get('/admin', 'HomeController@index')->name('home'); //menampilkan halaman utama admin
 
 // === ddc ===
 Route::get('/admin/ddcs', 'DdcController@index'); //menampilkan halaman ddc group
 Route::get('/admin/ddcs/{num}', 'DdcController@select'); //menampilkan halaman list ddc berdasarkan group yang dipilih
+Route::get('/admin/ddcs/{num}/print', 'DdcController@print'); //mencetak list ddc berdasarkan group yang dipilih
 
 Route::get('/admin/ddc/edit/{num}', 'DdcController@edit'); //menampilkan form edit ddc
 Route::post('/admin/ddc/edit/{num}', 'DdcController@update'); //post update data ddc
+Route::get('/admin/ddc/detail/{num}', 'DdcController@searchBook'); //melihat buku dengan ddc pilihan
+Route::get('/admin/ddc/print/{num}', 'DdcController@printDdc'); //melihat buku dengan ddc pilihan
+Route::get('/admin/ddc/search', 'DdcController@search'); //menampilkan data ddc
+
 
 // === pembukuan/bookeeping ===
 Route::get('/admin/bookkeepings', 'BookkeepingController@index'); //menampilkan halaman list pembukuan
+Route::get('/admin/bookkeepings/print', 'BookkeepingController@print'); //cetak list pembukuan
 
 Route::get('/admin/bookkeeping/new', 'BookkeepingController@create'); //menampilkan halaman form tambah pembukuan
 Route::post('/admin/bookkeeping/new', 'BookkeepingController@store'); //menyimpan data pembukuan baru
@@ -43,9 +49,13 @@ Route::post('/admin/bookkeeping/new', 'BookkeepingController@store'); //menyimpa
 Route::get('/admin/bookkeeping/edit/{no}', 'BookkeepingController@edit'); //menampilkan form edit pembukuan
 Route::post('/admin/bookkeeping/edit/{no}', 'BookkeepingController@update'); //menyimpan hasil edit pembukuan
 
+Route::get('/admin/bookkeeping/book/{no}', 'BookkeepingController@listBook'); //menyimpan buku dengan ddc pilihan
+Route::get('/admin/bookkeeping/print/{no}', 'BookkeepingController@printBook'); //menyimpan buku dengan ddc pilihan
+
 // === buku/book ===
 Route::get('/admin/books', 'BookController@index'); //menampilkan halaman list buku
-Route::get('/admin/books/search', 'BookController@search'); //menampilkan halaman list buku
+Route::get('/admin/books/search', 'BookController@search'); //melakukan pencarian buku
+Route::get('/admin/books/print', 'BookController@printAll'); //memprint semua buku
 
 Route::get('/admin/book/{id}/detail', 'BookController@show'); //menampilkan halaman buku id pilihan
 Route::get('/admin/book/{id}/print', 'BookController@print'); //mencetak detail buku
@@ -74,7 +84,9 @@ Route::get('/admin/visitors', 'VisitorController@index'); //menampilkan halaman 
 Route::get('/admin/visitors/search', 'VisitorController@search'); //menampilkan halaman list kunjungan member yang telah terdaftar
 
 // === borrow/peminjaman ===
-Route::get('/admin/borrows', 'BorrowController@index'); //menampilkan halaman list kunjungan member yang tidak terdaftar
+Route::get('/admin/borrows', 'BorrowController@index'); //menampilkan halaman list peminjaman
+Route::get('/admin/borrows/search', 'BorrowController@search'); //mencari peminjaman
+Route::get('/admin/borrows/print', 'BorrowController@print'); //print peminjaman
 Route::get('/admin/borrow/{id}/return', 'BorrowController@returnBorrow'); //mengembalikan buku
 Route::get('/admin/borrow/{id}/fine', 'BorrowController@fineMaker'); //memberikan peminjaman denda
 Route::get('/admin/borrow/{id}/pay', 'BorrowController@finePay'); //melakukan pembayaran denda
