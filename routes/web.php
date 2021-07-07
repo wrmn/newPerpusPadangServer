@@ -23,9 +23,11 @@ Route::get('/', function () {
 }); //menampilkan halaman checkin tamu
 
 Auth::routes(); //auth route untuk login admin
-Route::get('/logout', 'HomeController@logout'); // logout dari akun admin
 
+// === menu lain ===
+Route::get('/logout', 'HomeController@logout'); // logout dari akun admin
 Route::get('/admin', 'HomeController@index')->name('home'); //menampilkan halaman utama admin
+Route::get('/admin/report', 'HomeController@report'); //menampilkan halaman laporan
 
 // === ddc ===
 Route::get('/admin/ddcs', 'DdcController@index'); //menampilkan halaman ddc group

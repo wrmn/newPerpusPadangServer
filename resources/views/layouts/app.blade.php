@@ -76,7 +76,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ url('/summary/print') }}">Laporan</a>
+                    <a href="{{ url('/admin/report') }}">Laporan</a>
                 </li>
                 <li>
                     <a href="{{ route('logout') }}"> Logout </a>

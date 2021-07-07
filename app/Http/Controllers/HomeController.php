@@ -26,6 +26,16 @@ class HomeController extends Controller
         return view('home');
     }
 
+    /**
+     * menampilkan halaman cetak laporan
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function report()
+    {
+        return view('admin.other.report');
+    }
+
     public function logout()
     {
         auth()->logout();
