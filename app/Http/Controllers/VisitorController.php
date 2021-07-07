@@ -28,24 +28,28 @@ class VisitorController extends Controller
     public function search()
     {
 
-        $fromDate = request('from');
-        $toDate = request('to');
-
-        if ($fromDate == '') {
-            $fromDate = '1970-01-01';
+        if (request('bulan') && request('no')) {
+            $nice = explode("-", request('bulan'));
+            $visitorsRes = Visitor::whereMonth('waktu_kunjungan', $nice[1])
+                ->whereYear('waktu_kunjungan', $nice[0])
+                ->where('member_no', request('no'))
+                ->orderBy('waktu_kunjungan', 'desc')
+                ->paginate(10)
+                ->appends(request()->query());
+        } else if (request('bulan')) {
+            $nice = explode("-", request('bulan'));
+            $visitorsRes = Visitor::whereMonth('waktu_kunjungan', $nice[1])
+                ->whereYear('waktu_kunjungan', $nice[0])
+                ->orderBy('waktu_kunjungan', 'desc')
+                ->paginate(10)
+                ->appends(request()->query());
+        } else {
+            $visitorsRes = Visitor::where('member_no', request('no'))
+                ->orderBy('waktu_kunjungan', 'desc')
+                ->paginate(10)
+                ->appends(request()->query());
         }
-
-        if ($toDate == '') {
-            $toDate = Carbon::tomorrow();
-        }
-
-        $visitorsRes = Visitor::query()
-            ->whereBetween('waktu_kunjungan', [$fromDate, $toDate])
-            ->orderBy('waktu_kunjungan', 'desc')
-            ->paginate(10)
-            ->appends(request()->query());
-
-        return view('admin.visitor.table', compact('visitorsRes'));
+        return view('admin.visitor.table',  compact('visitorsRes'));
     }
 
     /**

@@ -7,26 +7,36 @@
                 <div class="card">
 
                     <div class="card-header">
-
-                        <a href="{{ url('/visitors/print') }}" class="btn btn-primary"> <i class="fa fa-file"></i> Cetak
-                            Laporan</a>
+                        <h4> Laporan</h4>
+                        <form method="GET" action="/admin/visitor/print">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="bulan">Bulan Peminjaman</label>
+                                    <input type="month" class="form-control" id="bulan" name="bulan" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary">Cetak</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="card-body">
+                        <h4>Pencarian</h4>
                         <form method="GET" action="/admin/visitors/search">
                             @csrf
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Dari tanggal</label>
-                                        <input type="date" class="form-control" name="from">
+                                        <label>Nomor Anggota</label>
+                                        <input type="number" class="form-control" name="no">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Hingga Tanggal</label>
-                                        <input type="date" class="form-control" name="to">
-                                    </div>
+                                    <label for="bulan">Bulan Kunjungan</label>
+                                    <input type="month" class="form-control" id="bulan" name="bulan">
                                 </div>
                             </div>
                             <div class="form-group pull-right">

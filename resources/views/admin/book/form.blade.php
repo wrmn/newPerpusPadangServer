@@ -17,8 +17,7 @@
                             </div>
                         @endif
                         <form method="POST" @if ($edit ?? '') action="/admin/book/edit/{{ $bookRes->book_id }}"
-                        @elseif($add ?? '')
-                                                                                                                action="/admin/book/new" @endif
+                        @elseif($add ?? '') action="/admin/book/new" @endif
                             enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -26,7 +25,17 @@
                                     <div class="form-group">
                                         <label for="ddcForm">DDC / Kategori / Sub-kategori</label>
 
-                                        <input type="number" name="ddc" list="ddcForm" class="form-control" @if ($edit ?? '') value = "{{ $bookRes->ddc }}" @elseif ($add ?? '') value="{{ old('ddc') }}" @endif required autofocus
+                                        <input type="number" name="ddc" list="ddcForm" class="form-control" 
+                                        @if ($edit ?? '') 
+                                            value = "{{ $bookRes->ddc }}" 
+                                        @elseif ($add ?? '') 
+                                            @if($ddc ?? '')
+                                                value="{{$ddc}}" 
+                                            @else
+                                                value="{{ old('ddc') }}" 
+                                            @endif
+                                        @endif 
+                                            required autofocus
                                             oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                         <datalist id="ddcForm">

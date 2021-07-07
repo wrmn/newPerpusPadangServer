@@ -140,7 +140,13 @@ class BorrowController extends Controller
      */
     public function print()
     {
-        echo request('bulan');
+
+        $nice = explode("-", request('bulan'));
+        $borrowsRes = Borrow::whereMonth('tanggal_peminjaman', $nice[1])
+            ->whereYear('tanggal_peminjaman', $nice[0])
+            ->get();
+
+        return view('admin.borrow.print',  compact('borrowsRes'));
     }
     /**
      * Show the form for creating a new resource.
@@ -149,6 +155,24 @@ class BorrowController extends Controller
      */
     public function search()
     {
-        echo request('bulan');
+        if (request('bulan') && request('no')) {
+            $nice = explode("-", request('bulan'));
+            $borrowsRes = Borrow::whereMonth('tanggal_peminjaman', $nice[1])
+                ->whereYear('tanggal_peminjaman', $nice[0])
+                ->where('member_no', request('no'))
+                ->paginate(10)
+                ->appends(request()->query());
+        } else if (request('bulan')) {
+            $nice = explode("-", request('bulan'));
+            $borrowsRes = Borrow::whereMonth('tanggal_peminjaman', $nice[1])
+                ->whereYear('tanggal_peminjaman', $nice[0])
+                ->paginate(10)
+                ->appends(request()->query());
+        } else {
+            $borrowsRes = Borrow::where('member_no', request('no'))
+                ->paginate(10)
+                ->appends(request()->query());
+        }
+        return view('admin.borrow.table',  compact('borrowsRes'));
     }
 }

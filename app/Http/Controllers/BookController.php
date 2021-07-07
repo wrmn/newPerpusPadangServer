@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class BookController extends Controller
 {
     private $rule = [
-        'ddc' => 'required|max:3',
+        'ddc' => 'required|max:3|min:3',
         'no_ik_jk' => 'required',
         'no' => 'required',
         'judul' => 'required|max:100',
@@ -67,6 +67,19 @@ class BookController extends Controller
         $ddcs = DDC::all();
         $add = true;
         return view('admin.book.form',  compact('bookkeepings', 'add', 'ddcs'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createWithDdc($ddc)
+    {
+        $bookkeepings = Bookkeeping::all();
+        $ddcs = DDC::all();
+        $add = true;
+        return view('admin.book.form',  compact('bookkeepings', 'add', 'ddcs', 'ddc'));
     }
 
     /**

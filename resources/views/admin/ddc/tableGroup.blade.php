@@ -6,8 +6,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        {{-- <a href="{{ url('/ddcs/print/all') }}" class="btn btn-primary"> <i class="fa fa-file"></i> Cetak
-                            Laporan</a> --}}
+                        @if (count($errors) > 0)
+                            @foreach ($errors->all() as $error)
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ $error }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
                         <form method="GET" action="/admin/ddc/search">
                             @csrf
                             <div class="row">
@@ -15,7 +23,8 @@
                                     <div class="form-group">
                                         <label for="ddcForm">DDC / Kategori / Sub-kategori</label>
 
-                                        <input type="number" name="ddc" list="ddcForm" class="form-control" @if ($edit ?? '') value = "{{ $bookRes->ddc }}" @elseif ($add ?? '') value="{{ old('ddc') }}" @endif required autofocus
+                                        <input type="number" name="ddc" list="ddcForm" class="form-control"
+                                            value="{{ old('ddc') }}" required autofocus
                                             oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                         <datalist id="ddcForm">

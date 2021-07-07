@@ -64,6 +64,13 @@ class DdcController extends Controller
      */
     public function search()
     {
+        $validator = Validator::make(request()->all(), [
+            'ddc' => 'required|max:3|min:3'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $ddc = request('ddc');
         return $this->searchBook($ddc);
     }

@@ -61,6 +61,8 @@ Route::get('/admin/book/{id}/detail', 'BookController@show'); //menampilkan hala
 Route::get('/admin/book/{id}/print', 'BookController@print'); //mencetak detail buku
 
 Route::get('/admin/book/new', 'BookController@create'); //menampilkan halaman form buku baru
+Route::get('/admin/book/new/ddc/{ddc}', 'BookController@createWithDdc'); //menampilkan halaman form buku baru
+Route::get('/admin/book/new/bookkeeping/{bookkeeping}', 'BookController@createWithBookkeeping'); //menampilkan halaman form buku baru
 Route::post('/admin/book/new', 'BookController@store'); //menyimpan data buku baru
 
 Route::get('/admin/book/edit/{no}', 'BookController@edit'); //menampilkan halaman form buku baru
@@ -82,6 +84,7 @@ Route::post('/admin/member/{no}/edit', 'MemberController@update'); //melihat det
 // === visitor/pengunjung ===
 Route::get('/admin/visitors', 'VisitorController@index'); //menampilkan halaman list kunjungan member yang telah terdaftar
 Route::get('/admin/visitors/search', 'VisitorController@search'); //menampilkan halaman list kunjungan member yang telah terdaftar
+Route::get('/admin/visitors/print', 'VisitorController@print'); //mencetak laporan kunjungan bulanan
 
 // === borrow/peminjaman ===
 Route::get('/admin/borrows', 'BorrowController@index'); //menampilkan halaman list peminjaman

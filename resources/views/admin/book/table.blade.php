@@ -18,22 +18,31 @@
                                         $id = "{$ddcInfo->ddc}";
                                     }
                                 @endphp
-                                                            href="{{ url("/admin/ddc/print/$id") }}" 
-                                                
+                                                                href="{{ url("/admin/ddc/print/$id") }}" 
+                                                    
                                             @elseif ($bookkeepingInfo ?? '') 
-                                                    @php
-                                                        $date = new DateTime($bookkeepingInfo->tanggal);
-                                                        $link = str_replace('/', '&', $bookkeepingInfo->no_ik_jk);
-                                                    @endphp
-                                                    href="{{ url("/admin/bookkeeping/print/$link") }}" 
+                                                        @php
+                                                            $date = new DateTime($bookkeepingInfo->tanggal);
+                                                            $link = str_replace('/', '&', $bookkeepingInfo->no_ik_jk);
+                                                        @endphp
+                                                        href="{{ url("/admin/bookkeeping/print/$link") }}" 
                                                         @else
-                                                                    href="{{ url('/admin/books/print') }}" @endif class="btn btn-primary"> <i class="fa fa-file"></i>
+                                                                        href="{{ url('/admin/books/print') }}" @endif
+                                    class="btn btn-primary"> <i class="fa fa-file"></i>
                                     Cetak
                                     Laporan</a>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ url('/admin/book/new') }}" class="btn btn-success">
-                                    <i class="fa fa-plus"></i>Tambah
+
+                                @if ($ddcInfo ?? '')
+                                    <a href="{{ url("/admin/book/new/ddc/$id") }}" class="btn btn-success">
+
+                                @elseif ($bookkeepingInfo ?? '')
+                                <a class="btn btn-success" hidden>
+                                    @else
+                                        <a href="{{ url('/admin/book/new') }}" class="btn btn-success">
+                                @endif
+                                <i class="fa fa-plus"></i>Tambah
                                 </a>
                             </div>
                         </div>
