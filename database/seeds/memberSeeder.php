@@ -23,55 +23,61 @@ class memberSeeder extends Seeder
             if ($statusNum == true) {
                 $statusReg = rand(0, 1);
                 if ($statusReg) {
-                    if ($k < 10) {
-                        $id = "00{$k}";
-                    } elseif ($k < 100) {
-                        $id = "0{$k}";
-                    } else {
-                        $id = "{$k}";
+                    $id = strval($k);
+                    while (strlen($id) != 3) {
+                        $id = "0$id";
                     }
                     $no = "M.2106.$id";
                     $k++;
-                } else{
-                    if ($l < 10) {
-                        $id = "00{$l}";
-                    } elseif ($l < 100) {
-                        $id = "0{$l}";
-                    } else {
-                        $id = "{$l}";
+                } else {
+                    $id = strval($l);
+                    while (strlen($id) != 8) {
+                        $id = "0$id";
                     }
                     $no = "REG.$id";
                     $l++;
                 }
+                $data[$i] = [
+                    'member_no' => $no,
+                    'nama' => strtolower($faker->name),
+                    'tempat_lahir' => strtolower($faker->city),
+                    'tanggal_lahir' => $faker->date,
+                    'alamat' => strtolower($faker->address),
+                    'job_id' => $positionNum,
+                    'nama_instansi' => strtolower($faker->company),
+                    'telepon_no' => "08$phoneNum",
+                    'identitas_no' => $faker->creditCardNumber,
+                    'identitas_file' => "default.png",
+                    'foto_file' => "default.png",
+                    'verivied' => $statusReg,
+                    'status_terdaftar' => $statusNum,
+                    'created_at' => now(),
+                ];
             } else {
-                if ($j < 10) {
-                    $id = "00{$j}";
-                } elseif ($j < 100) {
-                    $id = "0{$j}";
-                } else {
-                    $id = "{$j}";
+                $id = strval($j);
+                while (strlen($id) != 8) {
+                    $id = "0$id";
                 }
                 $no = "$id";
                 $j++;
+
+                $data[$i] = [
+                    'member_no' => $no,
+                    'nama' => strtolower($faker->name),
+                    'tempat_lahir' => NULL,
+                    'tanggal_lahir' => NULL,
+                    'alamat' => strtolower($faker->address),
+                    'job_id' => $positionNum,
+                    'nama_instansi' => strtolower($faker->company),
+                    'telepon_no' => NULL,
+                    'identitas_no' => NULL,
+                    'identitas_file' => NULL,
+                    'foto_file' => NULL,
+                    'verivied' => $statusReg,
+                    'status_terdaftar' => $statusNum,
+                    'created_at' => now(),
+                ];
             }
-
-
-            $data[$i] = [
-                'member_no' => $no,
-                'nama' => $faker->name,
-                'tempat_lahir' => $faker->city,
-                'tanggal_lahir' => $faker->date,
-                'alamat' => $faker->address,
-                'job_id' => $positionNum,
-                'nama_instansi' => $faker->company,
-                'telepon_no' => "08$phoneNum",
-                'identitas_no' => $faker->creditCardNumber,
-                'identitas_file' => "default.png",
-                'foto_file' => "default.png",
-                'verivied' => $statusReg,
-                'status_terdaftar' => $statusNum,
-                'created_at' => now(),
-            ];
         }
         DB::table('members')->insert($data);
     }

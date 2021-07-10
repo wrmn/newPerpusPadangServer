@@ -50,8 +50,7 @@
 
 <body style="overflow-y:hidden;background: radial-gradient(circle, rgba(158,251,251,1) 0%, rgba(190,234,236,1) 25%, rgba(230,255,254,1) 50%, rgba(202,236,245,1) 75%, rgba(162,239,255,1) 100%);
 ">
-    <nav class="navbar navbar-dark"
-        style="background: linear-gradient(167deg, rgba(0,11,93,0.7567401960784313) 27%, rgba(13,87,231,0.7511379551820728) 70%);
+    <nav class="navbar navbar-dark" style="background: linear-gradient(167deg, rgba(0,11,93,0.7567401960784313) 27%, rgba(13,87,231,0.7511379551820728) 70%);
         ">
 
         <div class="d-md-flex d-block flex-row mx-md-auto mx-0">
@@ -74,7 +73,6 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
 </body>
 
 </html>

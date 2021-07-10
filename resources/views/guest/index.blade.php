@@ -14,12 +14,12 @@
             <h1 class="font-weight-heavy">Selamat Datang</h1>
             <h4 class="font-weight-light">Silahkan pilih metode Check-in</h4>
             <div class="row">
-                <div class="col-md-5 mx-2 btn btn-success btn-lg">
-                    <a href="{{ url('/member') }}">Member</a>
-                </div>
-                <div class="col-md-5 btn btn-primary btn-lg">
-                    <a href="{{ url('/guest') }}">Bukan Member</a>
-                </div>
+                <a href="{{ url('/member') }}" class="col-md-5 mx-2 btn btn-success btn-lg">
+                    Member
+                </a>
+                <a href="{{ url('/guest') }}" class="col-md-5 btn btn-primary btn-lg">
+                    Bukan Member
+                </a>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                                 @endphp
                                 <tr>
                                     <th scope="row">{{ $i }}</th>
-                                    <td>{{ $item->memberDetail->nama }}</td>
+                                    <td>{{ ucwords($item->memberDetail->nama) }}</td>
                                     <td width="50%">{{ $date->format('H:i d-M-Y') }}</td>
                                 </tr>
                             @endforeach
@@ -79,8 +79,8 @@
                                 <tr>
                                     <th scope="row">{{ $j }}</th>
                                     <td>{{ $item->member_no }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->total }}</td>
+                                    <td>{{ ucwords($item->nama) }}</td>
+                                    <td>Rp {{ number_format($item->total, 0, '', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

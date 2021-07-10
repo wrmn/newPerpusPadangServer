@@ -15,13 +15,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/guest', function () {
-    return view('guest.index');
+Route::get('/punten', function () {
+    return view('guest.welcome');
 });
 
 Route::get('/', 'GuestController@index'); //halaman utama checkin
 Route::get('/member', 'GuestController@member'); //halaman checkin member
 Route::get('/guest', 'GuestController@guest'); //halaman checkin tamu
+
+Route::post('/guest', 'GuestController@guestPost'); //simpan data checkin tamu
 
 Auth::routes(); //auth route untuk login admin
 

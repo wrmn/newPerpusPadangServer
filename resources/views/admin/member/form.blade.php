@@ -60,7 +60,7 @@
                                         <label>Pekerjaan</label>
                                         <select id="bookkeepingForm" class="form-control" name="pekerjaan">
                                             @foreach ($jobsRes as $job)
-                                                <option value="{{ $job->job_id }}" @if (old('job_id') == $job->job_id || $memberRes->job_id == $job->job_id) selected="selected" @endif>
+                                                <option value="{{ $job->job_id }}" @if (old('pekerjaan') == $job->job_id || $memberRes->job_id == $job->job_id) selected="selected" @endif>
                                                     {{ $job->pekerjaan }}</option>
                                             @endforeach
                                         </select>

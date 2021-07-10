@@ -13,16 +13,17 @@ class visitorSeeder extends Seeder
      */
     public function run()
     {
-        $member=DB::table('members')
-            ->select('member_no')
+        $member = DB::table('members')
             ->get();
         $faker = faker\Factory::create();
-        for($i=0;$i<3000;$i++){
-            $memberNum = rand(0,149);
-            $data[$i]=[
-                'member_no'=>$member[$memberNum]->member_no,
-                'waktu_kunjungan'=>Carbon::parse($faker->dateTimeBetween('-30 week', 'now')),
-            ];
+        for ($i = 0; $i < 300; $i++) {
+            $memberNum = rand(0, 149);
+            if (!($member[$memberNum]->status_terdaftar && !$member[$memberNum]->verivied)) {
+                $data[$i] = [
+                    'member_no' => $member[$memberNum]->member_no,
+                    'waktu_kunjungan' => Carbon::parse($faker->dateTimeBetween('-30 week', 'now')),
+                ];
+            }
         }
         DB::table('visitors')->insert($data);
     }

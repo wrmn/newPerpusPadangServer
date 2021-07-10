@@ -11,6 +11,7 @@ class Visitor extends Model
         'waktu_kunjungan',
         'member_no',
     ];
+    public $timestamps = false;
 
     public function memberDetail()
     {
