@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GuestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,9 +19,9 @@ Route::get('/guest', function () {
     return view('guest.index');
 });
 
-Route::get('/', function () {
-    return view('guest.checkin');
-}); //menampilkan halaman checkin tamu
+Route::get('/', 'GuestController@index'); //halaman utama checkin
+Route::get('/member', 'GuestController@member'); //halaman checkin member
+Route::get('/guest', 'GuestController@guest'); //halaman checkin tamu
 
 Auth::routes(); //auth route untuk login admin
 
