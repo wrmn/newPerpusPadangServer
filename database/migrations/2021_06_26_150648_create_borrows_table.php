@@ -15,7 +15,7 @@ class CreateBorrowsTable extends Migration
     {
         Schema::create('borrows', function (Blueprint $table) {
             $table->increments('borrow_id');
-            $table->char('member_no', '8');
+            $table->char('member_no', '12');
             $table->foreign('member_no')
                 ->references('member_no')
                 ->on('members')

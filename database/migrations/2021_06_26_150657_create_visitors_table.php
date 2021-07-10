@@ -16,7 +16,7 @@ class CreateVisitorsTable extends Migration
         Schema::create('visitors', function (Blueprint $table) {
             $table->increments('visitor_id');
             $table->timestamp('waktu_kunjungan');
-            $table->char('member_no', '8')->nullable();
+            $table->char('member_no', '12');
             $table->foreign('member_no')
                 ->references('member_no')
                 ->on('members')

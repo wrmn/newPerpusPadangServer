@@ -13,16 +13,51 @@ class memberSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        for ($i = 0; $i < 150; $i++) {
+        $j = $k = $l = 1;
+        for ($i = 1; $i <= 150; $i++) {
+
             $statusNum = rand(0, 1);
             $statusReg = 0;
             $positionNum = rand(1, 8);
             $phoneNum = rand(100000000, 9999999999);
             if ($statusNum == true) {
                 $statusReg = rand(0, 1);
+                if ($statusReg) {
+                    if ($k < 10) {
+                        $id = "00{$k}";
+                    } elseif ($k < 100) {
+                        $id = "0{$k}";
+                    } else {
+                        $id = "{$k}";
+                    }
+                    $no = "M.2106.$id";
+                    $k++;
+                } else{
+                    if ($l < 10) {
+                        $id = "00{$l}";
+                    } elseif ($l < 100) {
+                        $id = "0{$l}";
+                    } else {
+                        $id = "{$l}";
+                    }
+                    $no = "REG.$id";
+                    $l++;
+                }
+            } else {
+                if ($j < 10) {
+                    $id = "00{$j}";
+                } elseif ($j < 100) {
+                    $id = "0{$j}";
+                } else {
+                    $id = "{$j}";
+                }
+                $no = "$id";
+                $j++;
             }
+
+
             $data[$i] = [
-                'member_no' => $i + 1,
+                'member_no' => $no,
                 'nama' => $faker->name,
                 'tempat_lahir' => $faker->city,
                 'tanggal_lahir' => $faker->date,

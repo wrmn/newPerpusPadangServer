@@ -31,7 +31,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No. Member</th>
-                                    <th scope="col">Nama Member</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Nama</th>
                                     <th scope="col">Waktu Kunjungan</th>
                                     <th scope="col">Act.</th>
                                 </tr>
@@ -55,6 +56,13 @@
                                                 -
                                             @endif
                                         </th>
+                                        <td>
+                                            @if ($item->memberDetail->status_terdaftar)
+                                                Member
+                                            @else
+                                                Non-Member
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ url("/admin/member/$item->member_no/detail") }}">
                                                 {{ $item->memberDetail->nama }}

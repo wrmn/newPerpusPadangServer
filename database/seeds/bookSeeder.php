@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Ddc;
 
 class bookSeeder extends Seeder
 {
@@ -32,8 +33,16 @@ class bookSeeder extends Seeder
                 } else {
                     $id = "{$ddcCurrent}";
                 }
-                $data[$j]=[
-                    'no' => $num,
+
+                $totalBook = Ddc::find($ddcCurrent)
+                    ->bookDetail()
+                    ->select(DB::raw('count(*) as total'))
+                    ->first();
+                $total = $totalBook->total;
+
+
+                DB::table('books')->insert([
+                    'no' => $total + 1,
                     'ddc' => $id,
                     'no_ik_jk' => $bookkeeping->id,
                     'judul' => $faker->realText(40),
@@ -41,10 +50,8 @@ class bookSeeder extends Seeder
                     'harga' => $price * 1000,
                     'status' => true,
                     'created_at' => now(),
-                ];
+                ]);
             }
-
-            DB::table('books')->insert($data);
         }
     }
 }

@@ -34,6 +34,7 @@ class CreateBooksTable extends Migration
             $table->integer('harga');
             $table->string('cover')->default('default.jpeg');
             $table->timestamps();
+            $table->unique(['ddc', 'no']);
         });
     }
 

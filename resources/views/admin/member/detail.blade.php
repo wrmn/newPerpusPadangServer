@@ -195,10 +195,10 @@
                                                         <a href="{{ url("/admin/borrow/$item->borrow_id/return") }}"
                                                             class="btn btn-success" data-toggle="tooltip"
                                                             data-placement="bottom" title="Pengembalii
-                                                                    i
-                                                                    </i>
-                                                                </a>
-                                                              @endif
+                                                                        i
+                                                                        </i>
+                                                                    </a>
+                                                                   @endif
                                                             @if ($item->status_denda && $datePayment == '')
                                                                 <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}"
                                                                     class="btn btn-primary" data-toggle="tooltip"
@@ -223,47 +223,47 @@
                                     </tbody>
                                 </table>
                             @endif
+                        @endif
 
-                            @if (count($visitRes) != 0)
-                                <h3>Kunjungan</h3>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">No. Member</th>
-                                            <th scope="col">Nama Member</th>
-                                            <th scope="col">Waktu Kunjungan</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                        @if (count($visitRes) != 0)
+                            <h3>Kunjungan</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No. Member</th>
+                                        <th scope="col">Nama Member</th>
+                                        <th scope="col">Waktu Kunjungan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $i = 0;
+                                    @endphp
+
+                                    @foreach ($visitRes as $item)
                                         @php
-                                            $i = 0;
+                                            $date = new DateTime($item->waktu_kunjungan);
                                         @endphp
-
-                                        @foreach ($visitRes as $item)
-                                            @php
-                                                $date = new DateTime($item->waktu_kunjungan);
-                                            @endphp
-                                            <tr>
-                                                <th>
-                                                    @if ($item->memberDetail->status_terdaftar)
-                                                        <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                            {{ $item->member_no }}
-                                                        </a>
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </th>
-                                                <td>
+                                        <tr>
+                                            <th>
+                                                @if ($item->memberDetail->status_terdaftar)
                                                     <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                        {{ $item->memberDetail->nama }}
+                                                        {{ $item->member_no }}
                                                     </a>
-                                                </td>
-                                                <td>{{ $date->format('H:i d M Y') }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            </th>
+                                            <td>
+                                                <a href="{{ url("/admin/member/$item->member_no/detail") }}">
+                                                    {{ $item->memberDetail->nama }}
+                                                </a>
+                                            </td>
+                                            <td>{{ $date->format('H:i d M Y') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @endif
                     </div>
                 </div>

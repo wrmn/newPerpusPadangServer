@@ -157,9 +157,10 @@ class BorrowController extends Controller
     {
         if (request('bulan') && request('no')) {
             $nice = explode("-", request('bulan'));
+            $no = request('no');
             $borrowsRes = Borrow::whereMonth('tanggal_peminjaman', $nice[1])
                 ->whereYear('tanggal_peminjaman', $nice[0])
-                ->where('member_no', request('no'))
+                ->where('member_no', 'like', "%{$no}%")
                 ->paginate(10)
                 ->appends(request()->query());
         } else if (request('bulan')) {
@@ -169,7 +170,9 @@ class BorrowController extends Controller
                 ->paginate(10)
                 ->appends(request()->query());
         } else {
-            $borrowsRes = Borrow::where('member_no', request('no'))
+            $no = request('no');
+
+            $borrowsRes = Borrow::where('member_no', 'like', "%{$no}%")
                 ->paginate(10)
                 ->appends(request()->query());
         }

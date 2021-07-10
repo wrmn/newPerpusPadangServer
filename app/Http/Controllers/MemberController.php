@@ -6,6 +6,7 @@ use App\Member;
 use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -29,6 +30,7 @@ class MemberController extends Controller
         session()->forget('forms.name');
         $membersRes = Member::where('status_terdaftar', true)
             ->where('verivied', true)
+            ->orderBy('member_no', 'asc')
             ->paginate(10);
 
         $verif = true;
@@ -146,9 +148,26 @@ class MemberController extends Controller
     {
         $memberRes = Member::find($member);
         $memberRes->verivied = true;
+        $m = date('m');
+        $y = date('y');
+        $no = "M.$y$m.";
+
+        $totalMember = Member::select(DB::raw('count(*) as total'))
+            ->where('member_no', 'like', "%{$no}%")
+            ->first();
+        $count = $totalMember->total + 1;
+
+        if ($count < 10) {
+            $id = "00{$count}";
+        } elseif ($count < 100) {
+            $id = "0{$count}";
+        } else {
+            $id = "{$count}";
+        }
+        $memberRes->member_no = "$no$id";
         $memberRes->save();
 
-        return redirect("admin/member/$member/detail")->with('success', "Member $memberRes->nama berhasil diverifikasi");
+        return redirect("admin/member/$no$id/detail")->with('success', "Member $memberRes->nama berhasil diverifikasi");
     }
 
     /**
