@@ -16,12 +16,6 @@
     margin: 0 auto;
 }
 
-body {
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-}
-
 .form-field-caption {
     font-weight: bold;
 }

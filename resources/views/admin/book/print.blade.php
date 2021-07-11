@@ -41,7 +41,7 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-3">
-            {!! QrCode::size(250)->generate("Book.$bookRes->book_id") !!}
+            {!! QrCode::size(250)->generate("book+$bookRes->book_id+$bookRes->ddc.$bookRes->no") !!}
         </div>
     </div>
 @endsection

@@ -36,6 +36,7 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Nama</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Waktu Kunjungan</th>
                             </tr>
                         </thead>
@@ -48,7 +49,15 @@
                                 <tr>
                                     <th scope="row">{{ $i }}</th>
                                     <td>{{ ucwords($item->memberDetail->nama) }}</td>
+                                    <td>
+                                        @if ($item->memberDetail->status_terdaftar == 1)
+                                            Member
+                                        @else
+                                            Bukan Member
+                                        @endif
+                                    </td>
                                     <td width="50%">{{ $date->format('H:i d-M-Y') }}</td>
+
                                 </tr>
                             @endforeach
                         </tbody>

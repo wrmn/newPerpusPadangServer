@@ -15,14 +15,13 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/punten', function () {
-    return view('guest.welcome');
-});
-
 Route::get('/', 'GuestController@index'); //halaman utama checkin
-Route::get('/member', 'GuestController@member'); //halaman checkin member
-Route::get('/guest', 'GuestController@guest'); //halaman checkin tamu
+Route::get('/member', function () {
+    return view('guest.checkin');
+});
+Route::get('/member/{no}/checkin', 'GuestController@checkin'); //post checkin tamu
 
+Route::get('/guest', 'GuestController@guest'); //halaman checkin tamu
 Route::post('/guest', 'GuestController@guestPost'); //simpan data checkin tamu
 
 Auth::routes(); //auth route untuk login admin
@@ -95,6 +94,14 @@ Route::get('/admin/visitors/print', 'VisitorController@print'); //mencetak lapor
 Route::get('/admin/borrows', 'BorrowController@index'); //menampilkan halaman list peminjaman
 Route::get('/admin/borrows/search', 'BorrowController@search'); //mencari peminjaman
 Route::get('/admin/borrows/print', 'BorrowController@print'); //print peminjaman
+
 Route::get('/admin/borrow/{id}/return', 'BorrowController@returnBorrow'); //mengembalikan buku
 Route::get('/admin/borrow/{id}/fine', 'BorrowController@fineMaker'); //memberikan peminjaman denda
 Route::get('/admin/borrow/{id}/pay', 'BorrowController@finePay'); //melakukan pembayaran denda
+Route::get('/admin/borrow/new', function () {
+    return view('admin.borrow.new');
+});
+
+Route::get('/admin/returns', function () {
+    return view('admin.borrow.return');
+});

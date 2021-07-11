@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Visitor;
 use App\Job;
+use App\Book;
 use App\Member;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -84,9 +85,36 @@ class GuestController extends Controller
         } else {
             $visitorRes->member_no = $member->member_no;
         }
-        
+
         $name = ucwords(request('nama'));
         $visitorRes->save();
+
+        return view('guest.welcome', compact('name'));
+    }
+
+    public function member($no)
+    {
+        $member = Member::find($no);
+        return response()->json($member);
+    }
+
+    public function book($no)
+    {
+        $book = Book::find($no);
+        return response()->json($book);
+    }
+
+    public function checkin($no)
+    {
+        $member = Member::find($no);
+
+        $visitorRes = new Visitor;
+        $visitorRes->waktu_kunjungan = now();
+        $visitorRes->member_no = $no;
+        $visitorRes->save();
+
+
+        $name = ucwords($member->nama);
 
         return view('guest.welcome', compact('name'));
     }

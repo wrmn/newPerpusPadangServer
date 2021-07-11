@@ -194,29 +194,30 @@
                                                     @if ($dateReturn == '' && ($datePayment != '' || !$item->status_denda))
                                                         <a href="{{ url("/admin/borrow/$item->borrow_id/return") }}"
                                                             class="btn btn-success" data-toggle="tooltip"
-                                                            data-placement="bottom" title="Pengembalii
-                                                                        i
-                                                                        </i>
-                                                                    </a>
-                                                                   @endif
-                                                            @if ($item->status_denda && $datePayment == '')
-                                                                <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}"
-                                                                    class="btn btn-primary" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Bayar Denda">
-                                                                    <i class="fa fa-money">
+                                                            data-placement="bottom" title="Pengembalian">
 
-                                                                    </i>
-                                                                </a>
-                                                            @endif
-                                                            @if (!$item->status_denda && $dateReturn == '')
-                                                                <a href="{{ url("/admin/borrow/$item->borrow_id/fine") }}"
-                                                                    class="btn btn-danger" data-toggle="tooltip"
-                                                                    data-placement="bottom" title="Pemberian Denda">
-                                                                    <i class="fa fa-money">
+                                                            <i class="fa fa-check">
+                                                            </i>
+                                                        </a>
+                                                    @endif
+                                                    @if ($item->status_denda && $datePayment == '')
+                                                        <a href="{{ url("/admin/borrow/$item->borrow_id/pay") }}"
+                                                            class="btn btn-primary" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Bayar Denda">
+                                                            <i class="fa fa-money">
 
-                                                                    </i>
-                                                                </a>
-                                                            @endif
+                                                            </i>
+                                                        </a>
+                                                    @endif
+                                                    @if (!$item->status_denda && $dateReturn == '')
+                                                        <a href="{{ url("/admin/borrow/$item->borrow_id/fine") }}"
+                                                            class="btn btn-danger" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Pemberian Denda">
+                                                            <i class="fa fa-money">
+
+                                                            </i>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

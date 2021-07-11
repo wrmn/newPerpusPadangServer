@@ -23,6 +23,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/JsQRScannerAdmin.css') }}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{ asset('js/qr/jsqrscanner.nocache.js') }}"></script>
 </head>
 
 <body>
@@ -51,10 +54,10 @@
                     <div>Peminjaman</div>
                     <ul class="show collapse list-unstyled" id="pageSubmenu">
                         <li>
-                            <a href="{{ url('/borrows') }}">Peminjaman</a>
+                            <a href="{{ url('/admin/borrow/new') }}">Peminjaman</a>
                         </li>
                         <li>
-                            <a href="{{ url('/borrows/fines') }}">Pengembalian</a>
+                            <a href="{{ url('/admin/returns') }}">Pengembalian</a>
                         </li>
                         <li>
                             <a href="{{ url('/admin/borrows') }}">List Peminjaman</a>

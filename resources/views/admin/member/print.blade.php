@@ -53,7 +53,7 @@
                     $memberNo="0$memberNo";
                 }
             @endphp
-            {!! QrCode::size(250)->generate("$memberNo$memberRes->identity_no") !!}
+            {!! QrCode::size(250)->generate("member+$memberNo$memberRes->identity_no") !!}
         </div>
     </div>
 @endsection
