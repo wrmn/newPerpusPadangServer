@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Borrow;
 use App\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BorrowController extends Controller
 {
@@ -25,9 +26,34 @@ class BorrowController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($no, $id)
     {
-        //
+        $borrowCount = Borrow::select(DB::raw('count(*) as total'))
+            ->where('member_no', '=', $no)
+            ->where('tanggal_pengembalian', '=', NULL)
+            ->first();
+        if ($borrowCount->total > 2) {
+            return redirect()->back()->withErrors("Peminjaman GAGAL! Member telah mencapai batas peminjaman");
+        }
+
+        $bookRes = Book::find($id);
+
+        if (!($bookRes->status)) {
+            return redirect()->back()->withErrors("Peminjaman GAGAL! Buku Masih Dipinjam");
+        }
+
+        $borrowRes = new Borrow;
+        $borrowRes->member_no = $no;
+        $borrowRes->book_id = $id;
+        $borrowRes->admin_username = "admin";
+        $borrowRes->status_denda = false;
+        $borrowRes->tanggal_peminjaman = now();
+        $borrowRes->save();
+
+        $bookRes->status = false;
+        $bookRes->save();
+
+        return redirect("admin/member/$no/detail")->with('success', "Peminjaman member berhasil ditambahkan");
     }
 
     /**

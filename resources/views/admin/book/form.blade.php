@@ -25,19 +25,16 @@
                                     <div class="form-group">
                                         <label for="ddcForm">DDC / Kategori / Sub-kategori</label>
 
-                                        <input type="number" name="ddc" list="ddcForm" class="form-control" 
-                                        @if ($edit ?? '') 
-                                            value = "{{ $bookRes->ddc }}" 
+                                        <input type="number" name="ddc" list="ddcForm" class="form-control" @if ($edit ?? '') value = "{{ $bookRes->ddc }}" 
                                         @elseif ($add ?? '') 
-                                            @if($ddc ?? '')
-                                                value="{{$ddc}}" 
-                                            @else
-                                                value="{{ old('ddc') }}" 
-                                            @endif
-                                        @endif 
-                                            required autofocus
-                                            oninvalid="this.setCustomValidity('Data dibutuhkan')"
-                                            oninput="this.setCustomValidity('')">
+                                                      @if ($ddc ?? '')
+                                        value="{{ $ddc }}"
+                                    @else
+                                        value="{{ old('ddc') }}" @endif
+                                        @endif
+                                        required autofocus
+                                        oninvalid="this.setCustomValidity('Data dibutuhkan')"
+                                        oninput="this.setCustomValidity('')">
                                         <datalist id="ddcForm">
                                             @foreach ($ddcs as $ddc)
                                                 @php
@@ -55,14 +52,16 @@
                                         </datalist>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Nomor</label>
-                                        <input type="number" class="form-control" name="no" @if ($edit ?? '') value = "{{ $bookRes->no }}" @elseif ($add ?? '') value="{{ old('no') }}" @endif required autofocus
-                                            oninvalid="this.setCustomValidity('Data dibutuhkan')"
-                                            oninput="this.setCustomValidity('')">
+                                @if ($add ?? '')
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Jumlah Buku</label>
+                                            <input type="number" class="form-control" name="total" value="1" required autofocus
+                                                oninvalid="this.setCustomValidity('Data dibutuhkan')"
+                                                oninput="this.setCustomValidity('')">
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="bookkeepingForm">No IK JK</label>

@@ -6,6 +6,16 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
+                        @if (count($errors) > 0)
+                            @foreach ($errors->all() as $error)
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ $error }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @endif
                         <div class="row-element-set row-element-set-QRScanner">
                             <div class="qrscanner" id="scanner">
                             </div>
@@ -46,6 +56,7 @@
     </div>
 
     <script type="text/javascript">
+        let bookId, memberNo;
         async function onQRCodeScanned(scannedText) {
             const result = scannedText.split("+");
 
@@ -53,24 +64,27 @@
                 const response = await fetch(`{{ url('/api/book') }}/${result[1]}`);
 
                 var data = await response.json();
-                console.log(data);
                 var ddcField = document.getElementById("ddc_buku");
                 var titleField = document.getElementById("judul_buku");
                 if (ddcField && titleField) {
                     ddcField.value = `${data.ddc}.${data.no}`;
                     titleField.value = capital(data.judul);
                 }
+                bookId = data.book_id;
             } else if (result[0] == "member") {
                 const response = await fetch(`{{ url('/api/member') }}/${result[1]}`);
 
                 var data = await response.json();
-                console.log(data);
                 var noField = document.getElementById("no_anggota");
                 var nameField = document.getElementById("nama_anggota");
                 if (nameField && noField) {
                     noField.value = data.member_no;
                     nameField.value = capital(data.nama);
                 }
+                memberNo = data.member_no
+            }
+            if (memberNo && bookId) {
+                window.location.href = `/admin/borrow/make/${memberNo}/${bookId}`;
             }
         }
 

@@ -6,6 +6,7 @@ use App\Book;
 use App\Ddc;
 use App\Bookkeeping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
@@ -13,7 +14,6 @@ class BookController extends Controller
     private $rule = [
         'ddc' => 'required|max:3|min:3',
         'no_ik_jk' => 'required',
-        'no' => 'required',
         'judul' => 'required|max:100',
         'penulis' => 'required|max:100',
         'harga' => 'required',
@@ -39,7 +39,9 @@ class BookController extends Controller
         session()->forget('forms.title');
         session()->forget('forms.author');
         session()->put('forms.ddc', "10");
-        $booksRes = Book::paginate(10);
+        $booksRes = Book::orderBy('ddc', 'asc')
+            ->orderByRaw('abs(no) asc')
+            ->paginate(10);
 
         return view('admin.book.table',  compact('booksRes'));
     }
@@ -51,7 +53,9 @@ class BookController extends Controller
      */
     public function printAll()
     {
-        $booksRes = Book::get();
+        $booksRes = Book::orderBy('ddc', 'asc')
+            ->orderByRaw('abs(no) asc')
+            ->get();
 
         return view('admin.book.printAll',  compact('booksRes'));
     }
@@ -95,23 +99,35 @@ class BookController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $book = request('judul');
+        $ddcFind = request('ddc');
 
-        $bookRes = new Book;
-        $bookRes->ddc = request('ddc');
-        $bookRes->no_ik_jk = request('no_ik_jk');
-        $bookRes->no = request('no');
-        $bookRes->judul = request('judul');
-        $bookRes->status = true;
-        $bookRes->penulis = request('penulis');
-        $bookRes->harga = request('harga');
+        $totalBook = Ddc::find($ddcFind)
+            ->bookDetail()
+            ->select(DB::raw('count(*) as total'))
+            ->first();
+        $total = $totalBook->total;
+        $ddc = request('ddc');
+        $jumlah = request('total');
         if (request('cover')) {
             $cover = time() . '-id.' . request('cover')->extension();
             request('cover')->move(public_path('images/book'), $cover);
-            $bookRes->cover = $cover;
         }
-        $bookRes->save();
+        while ($jumlah != 0) {
+            $total++;
+            $bookRes = new Book;
+            $bookRes->ddc = request('ddc');
+            $bookRes->no_ik_jk = request('no_ik_jk');
+            $bookRes->no = $total;
+            $bookRes->judul = request('judul');
+            $bookRes->status = true;
+            $bookRes->penulis = request('penulis');
+            $bookRes->harga = request('harga');
+            $bookRes->cover = $cover;
+            $bookRes->save();
+            $jumlah--;
+        }
 
-        return redirect("admin/books")->with('success', "Buku $book berhasil ditambahkan");
+        return redirect("admin/ddc/detail/$ddc")->with('success', "Buku $book berhasil ditambahkan");
     }
 
     /**
@@ -174,7 +190,6 @@ class BookController extends Controller
         $bookRes = Book::find($book);
         $bookRes->ddc = request('ddc');
         $bookRes->no_ik_jk = request('no_ik_jk');
-        $bookRes->no = request('no');
         $bookRes->judul = request('judul');
         $bookRes->penulis = request('penulis');
         $bookRes->harga = request('harga');
@@ -210,6 +225,7 @@ class BookController extends Controller
             ->where('penulis', 'like', "%{$author}%")
             ->whereBetween('ddc', [$cat, $ncat])
             ->orderBy('ddc')
+            ->orderByRaw('abs(no) asc')
             ->paginate(10)
             ->appends(request()->query());
 

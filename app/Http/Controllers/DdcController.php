@@ -21,8 +21,7 @@ class DdcController extends Controller
      */
     public function index()
     {
-        $ddcGroups = Ddc::select('group')
-            ->groupBy('group')
+        $ddcGroups = Ddc::select(DB::raw('DISTINCT(ddcs.group)'))
             ->get();
         $ddcs = Ddc::get();
         return view('admin.ddc.tableGroup',  compact('ddcGroups', 'ddcs'));
@@ -82,7 +81,10 @@ class DdcController extends Controller
      */
     public function searchBook($ddc)
     {
-        $booksRes = Book::where('ddc', $ddc)->paginate(10);
+        $booksRes = Book::where('ddc', $ddc)
+            ->orderBy('ddc', 'asc')
+            ->orderByRaw('abs(no) asc')
+            ->paginate(10);
         $ddcInfo = Ddc::find($ddc);
 
         session()->forget('forms.title');

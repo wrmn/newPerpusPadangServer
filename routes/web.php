@@ -100,8 +100,10 @@ Route::get('/admin/borrow/{id}/fine', 'BorrowController@fineMaker'); //memberika
 Route::get('/admin/borrow/{id}/pay', 'BorrowController@finePay'); //melakukan pembayaran denda
 Route::get('/admin/borrow/new', function () {
     return view('admin.borrow.new');
-});
+}); //menampilkan scan qr peminjaman baru
 
 Route::get('/admin/returns', function () {
     return view('admin.borrow.return');
-});
+}); //menampilkan scan qr untuk mencari member
+
+Route::get('/admin/borrow/make/{no}/{id}', 'BorrowController@create'); // menyimpan data peminjaman baru
