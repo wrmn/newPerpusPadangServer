@@ -37,6 +37,10 @@
                     <td>{{ $memberRes->jobDetail->pekerjaan }}</td>
                 </tr>
                 <tr>
+                    <th scope="row">Instansi</th>
+                    <td>{{ $memberRes->nama_instansi }}</td>
+                </tr>
+                <tr>
                     <th scope="row">Nomor Telepon</th>
                     <td>{{ $memberRes->telepon_no }}</td>
                 </tr>
