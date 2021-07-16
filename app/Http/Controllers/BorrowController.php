@@ -6,9 +6,30 @@ use App\Borrow;
 use App\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Null_;
 
 class BorrowController extends Controller
 {
+
+    /**
+     * Memastikan user login sebelum mengakses fungsi
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $borrows = Borrow::get();
+        foreach ($borrows as $borrow) {
+            $date1 = date_create($borrow->tanggal_peminjaman);
+            $date2 = date_create(now());
+            $diff = date_diff($date1, $date2);
+            $sub = $diff->format("%a");
+            if ($sub > 10 && $borrow->tanggal_pengembalian == NULL) {
+                $this->fineMakerAlt($borrow->borrow_id);
+            }
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +37,7 @@ class BorrowController extends Controller
      */
     public function index()
     {
-        $borrowsRes = Borrow::paginate(10);
+        $borrowsRes = Borrow::orderBy("tanggal_peminjaman", "desc")->paginate(10);
 
         return view('admin.borrow.table',  compact('borrowsRes'));
     }
@@ -28,6 +49,15 @@ class BorrowController extends Controller
      */
     public function create($no, $id)
     {
+        $fineCount = Borrow::select(DB::raw('count(*) as total'))
+            ->where('member_no', '=', $no)
+            ->where('status_denda', '=', true)
+            ->where('tanggal_pembayaran', '=', NULL)
+            ->first();
+        if ($fineCount->total != 0) {
+            return redirect()->back()->withErrors("Peminjaman GAGAL! Member sedang terdenda");
+        }
+
         $borrowCount = Borrow::select(DB::raw('count(*) as total'))
             ->where('member_no', '=', $no)
             ->where('tanggal_pengembalian', '=', NULL)
@@ -54,62 +84,6 @@ class BorrowController extends Controller
         $bookRes->save();
 
         return redirect("admin/member/$no/detail")->with('success', "Peminjaman member berhasil ditambahkan");
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Borrow  $borrow
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Borrow $borrow)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Borrow  $borrow
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Borrow $borrow)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Borrow  $borrow
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Borrow $borrow)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Borrow  $borrow
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Borrow $borrow)
-    {
-        //
     }
 
     /**
@@ -142,6 +116,19 @@ class BorrowController extends Controller
         $bookRes = Book::find($borrowRes->book_id);
 
         return redirect()->back()->with('success', "Peminjaman $bookRes->judul telah diberi denda");
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function fineMakerAlt($id)
+    {
+        $borrowRes = Borrow::find($id);
+        $borrowRes->status_denda = true;
+        $borrowRes->save();
+        return;
     }
     /**
      * Show the form for creating a new resource.

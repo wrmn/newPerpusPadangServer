@@ -10,6 +10,7 @@
         <div class="col-lg-10">
             <h1 class="font-weight-heavy">Selamat Datang</h1>
             <h4 class="font-weight-light">Silahkan Scan Kartu Member Anda</h4>
+            <h6 class="font-weight-light">atau masukkan nomor member anda</h6>
         </div>
     </div>
     <div class="card">
@@ -20,13 +21,52 @@
             </a>
         </div>
         <div class="card-body">
-            <div class="row-element-set row-element-set-QRScanner">
-                <div class="qrscanner" id="scanner">
+            @if (count($errors) > 0)
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger fade show" role="alert">
+                        {{ $error }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endforeach
+            @endif
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row-element-set row-element-set-QRScanner">
+                        <div class="qrscanner" id="scanner">
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-md-4">
+                    No. member :
+                    <input type="text" class="form-control" name="member_no" id="member_no" value="M.">
+                    <button class="btn btn-success" id="checkin">
+                        <i class="fa fa-check"></i>
+                        Check-in
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
             </div>
         </div>
     </div>
+    </div>
+    </div>
     <script type="text/javascript">
+        document.getElementById("checkin").addEventListener("click", checkin);
+        let fieldNo = document.getElementById("member_no");
+        fieldNo.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                checkin();
+            }
+        });
+
+        function checkin() {
+            window.location.href = `member/${fieldNo.value}/checkin`;
+        }
+
         function onQRCodeScanned(scannedText) {
             const result = scannedText.split("+");
 

@@ -53,7 +53,6 @@
                                         <th scope="col">No</th>
                                         <th scope="col">Nama</th>
                                         <th scope="col">Kontak</th>
-                                        <th scope="col">Verifikasi</th>
                                         <th scope="col">Act.</th>
                                     </tr>
                                 </thead>
@@ -66,11 +65,6 @@
                                             <th scope="row">{{ $item->member_no }}</th>
                                             <th>{{ $caseName }}</th>
                                             <td>{{ $item->telepon_no }}</td>
-                                            <td class="text-center" width="15%">
-                                                @if ($item->verivied == 1)
-                                                    <i class='fa fa-check'></i>
-                                                @endif
-                                            </td>
                                             <td width="20%">
                                                 <a href="{{ url("/admin/member/$item->member_no/detail") }}"
                                                     class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"

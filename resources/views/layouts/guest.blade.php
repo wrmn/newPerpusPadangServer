@@ -19,6 +19,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/JsQRScanner.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('js/qr/jsqrscanner.nocache.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
 
     <style>
         .demo {

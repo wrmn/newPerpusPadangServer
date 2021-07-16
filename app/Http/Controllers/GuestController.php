@@ -6,6 +6,7 @@ use App\Visitor;
 use App\Job;
 use App\Book;
 use App\Member;
+use App\Borrow;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,15 +23,38 @@ class GuestController extends Controller
             ->orderBy('waktu_kunjungan', 'desc')
             ->get();
 
-        $finesRes = DB::table('borrows')
-            ->join('books', 'borrows.book_id', '=', 'books.book_id')
-            ->join('members', 'borrows.member_no', '=', 'members.member_no')
-            ->select('borrows.member_no', 'nama', DB::raw('sum(harga) as total'))
-            ->orderBy('total', 'desc')
-            ->groupBy('member_no')
-            ->get();
+        $memberLastSemester = Visitor::memberJobs()
+            ->select(DB::raw("YEAR(waktu_kunjungan) AS 'year', MONTH(waktu_kunjungan) as month, MONTHNAME(waktu_kunjungan) as monthName"), DB::raw('count(*) as total'))
+            ->where('members.verivied', '=', true)
+            ->groupBy("year", "month", "monthName")
+            ->orderBy("year", "desc")
+            ->orderBy("month", "desc")
+            ->limit(6)
+            ->pluck('total', 'monthName')->all();
 
-        return view('guest.index', compact("visitorRes", "finesRes"));
+        $visitorLastSemester = Visitor::memberJobs()
+            ->select(DB::raw("YEAR(waktu_kunjungan) AS 'year', MONTH(waktu_kunjungan) as month, MONTHNAME(waktu_kunjungan) as monthName"), DB::raw('count(*) as total'))
+            ->where('members.verivied', '=', false)
+            ->groupBy("year", "month", "monthName")
+            ->orderBy("year", "desc")
+            ->orderBy("month", "desc")
+            ->limit(6)
+            ->pluck('total', 'monthName')->all();
+
+        $bookBorrow = Borrow::getBook()
+            ->select(DB::raw("books.judul"), DB::raw('count(*) as total'))
+            ->groupBy("judul")
+            ->orderBy("total", "desc")
+            ->limit(6)
+            ->pluck('total', 'judul')->all();
+
+        $visitMonth = (array_reverse(array_keys($visitorLastSemester)));
+        $visitorData2 = (array_reverse(array_values($memberLastSemester)));
+        $visitorData = (array_reverse(array_values($visitorLastSemester)));
+        $borrowData = (array_values($bookBorrow));
+        $titleData = (array_keys($bookBorrow));
+
+        return view('guest.index', compact("visitorRes", "visitMonth", "visitorData", "visitorData2", "borrowData", "titleData"));
     }
 
     public function guest()
@@ -95,18 +119,76 @@ class GuestController extends Controller
     public function member($no)
     {
         $member = Member::find($no);
-        return response()->json($member);
+        if (!$member) {
+            return response()->json(
+                [
+                    'fail' => "Data Member Tidak Ditemukan",
+                    'code' => 404
+                ],
+                404
+            );
+        }
+        return response()->json(
+            [
+                'success' => $member,
+                'code' => 200
+            ],
+            200
+        );
     }
 
     public function book($no)
     {
         $book = Book::find($no);
-        return response()->json($book);
+        if (!$book) {
+            return response()->json(
+                [
+                    'fail' => "Data Buku Tidak Ditemukan",
+                    'code' => 404
+                ],
+                404
+            );
+        }
+        return response()->json(
+            [
+                'success' => $book,
+                'code' => 200
+            ],
+            200
+        );
+    }
+
+    public function bookByDdc($ddc, $no)
+    {
+        $book = Book::where('ddc', '=', $ddc)
+            ->where('no', '=', $no)
+            ->first();
+
+        if (!$book) {
+            return response()->json(
+                [
+                    'fail' => "Data Buku Tidak Ditemukan",
+                    'code' => 404
+                ],
+                404
+            );
+        }
+        return response()->json(
+            [
+                'success' => $book,
+                'code' => 200
+            ],
+            200
+        );
     }
 
     public function checkin($no)
     {
         $member = Member::find($no);
+
+        if (!$member) {
+            return redirect()->back()->withErrors("Data member tidak ditemukan!");
+        }
 
         $visitorRes = new Visitor;
         $visitorRes->waktu_kunjungan = now();

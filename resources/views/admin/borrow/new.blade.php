@@ -28,26 +28,26 @@
                     <tr>
                         <th scope="row" width="20%">Nomor Anggota</th>
                         <td>
-                            <input type="text" id="no_anggota" class="form-group" rows="3" readonly="">
+                            <input type="text" id="no_anggota" class="form-group" rows="3">
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" width="20%">Nama Anggota</th>
                         <td>
-                            <input type="text" id="nama_anggota" class="form-group" rows="3" readonly="">
+                            <div id="nama_anggota"></div>
                         </td>
                     </tr>
                     </tr>
                     <tr>
                         <th scope="row" width="20%">No. Buku</th>
                         <td>
-                            <input type="text" id="ddc_buku" class="form-group" rows="3" readonly="">
+                            <input type="text" id="ddc_buku" class="form-group" rows="3">
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" width="20%">Judul</th>
                         <td>
-                            <input type="text" id="judul_buku" class="form-group" rows="3" readonly="">
+                            <div id="judul_buku"></div>
                         </td>
                     </tr>
                 </table>
@@ -57,6 +57,65 @@
 
     <script type="text/javascript">
         let bookId, memberNo;
+        let memberNoField = document.getElementById("no_anggota");
+        let memberNameField = document.getElementById("nama_anggota");
+        let bookNoField = document.getElementById("ddc_buku");
+        let bookNameField = document.getElementById("judul_buku");
+        memberNoField.onchange = function() {
+            data = capital(memberNoField.value);
+            memberNoField.value = data;
+            getMember();
+        };
+        bookNoField.onchange = function() {
+            getBook();
+        }
+
+        async function getMember() {
+            const response = await fetch(`{{ url('/api/member') }}/${memberNoField.value}`);
+            var data = await response.json();
+            if (data.code != 404) {
+                memberNameField.innerHTML = capital(data.success.nama);
+                memberNo = data.success.member_no;
+
+                if (memberNo && bookId) {
+                    window.setTimeout(function() {
+                        var conf = confirm(`Tambahkan data peminjaman buku?`);
+                        if (conf == true) {
+                            window.location.href = `/admin/borrow/make/${memberNo}/${bookId}`;
+                        }
+                    }, 500);
+                }
+            } else {
+                alert(data.fail);
+
+                memberNameField.innerHTML = ``;
+            }
+        }
+
+        async function getBook() {
+            const result = bookNoField.value.split(".");
+            const response = await fetch(`{{ url('/api/book/byddc') }}/${result[0]}/${result[1]}`);
+            var data = await response.json();
+            if (data.code != 404) {
+                bookNameField.innerHTML = capital(data.success.judul);
+                bookId = data.success.book_id;
+                if (memberNo && bookId) {
+                    window.setTimeout(function() {
+
+                        var conf = confirm(`Tambahkan data peminjaman buku?`);
+                        if (conf == true) {
+                            window.location.href = `/admin/borrow/make/${memberNo}/${bookId}`;
+                        }
+
+                    }, 500);
+                }
+
+            } else {
+                alert(data.fail);
+
+                BookNameField.innerHTML = ``;
+            }
+        }
         async function onQRCodeScanned(scannedText) {
             const result = scannedText.split("+");
 
@@ -64,24 +123,20 @@
                 const response = await fetch(`{{ url('/api/book') }}/${result[1]}`);
 
                 var data = await response.json();
-                var ddcField = document.getElementById("ddc_buku");
-                var titleField = document.getElementById("judul_buku");
                 if (ddcField && titleField) {
-                    ddcField.value = `${data.ddc}.${data.no}`;
-                    titleField.value = capital(data.judul);
+                    bookNoField.value = `${data.success.ddc}.${data.success.no}`;
+                    bookNameField.innerHTML = capital(data.success.judul);
                 }
                 bookId = data.book_id;
             } else if (result[0] == "member") {
                 const response = await fetch(`{{ url('/api/member') }}/${result[1]}`);
 
                 var data = await response.json();
-                var noField = document.getElementById("no_anggota");
-                var nameField = document.getElementById("nama_anggota");
                 if (nameField && noField) {
-                    noField.value = data.member_no;
-                    nameField.value = capital(data.nama);
+                    memberNoField.value = data.success.member_no;
+                    memberNameField.innerHTML = capital(data.success.nama);
                 }
-                memberNo = data.member_no
+                memberNo = data.success.member_no;
             }
             if (memberNo && bookId) {
                 window.location.href = `/admin/borrow/make/${memberNo}/${bookId}`;

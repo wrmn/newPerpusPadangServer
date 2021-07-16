@@ -28,4 +28,14 @@ class Borrow extends Model
     {
         return $this->belongsTo('App\Book', 'book_id');
     }
+
+    public static function getBook()
+    {
+        return static::leftJoin(
+            'books',
+            'books.book_id',
+            '=',
+            'borrows.book_id'
+        );
+    }
 }

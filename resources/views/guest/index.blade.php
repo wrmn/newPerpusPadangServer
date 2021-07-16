@@ -26,7 +26,7 @@
     <!-- Content Row-->
     <div class="row gx-4 gx-lg-5">
         <div class="col-md-6 ">
-            <div class="card" style="height: 50vh">
+            <div class="card" style="height: 55vh">
                 <div class="card-header">
                     <h4 class="card-title">Pengunjung Terbaru</h4>
                 </div>
@@ -66,35 +66,9 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card" style="height: 50vh">
-                <div class="card-header">
-                    <h4 class="card-title">Denda Member</h4>
-                </div>
-                <div class="card-body">
-                    <table class="table content-table">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">No. Member</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Denda</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($finesRes as $item)
-                                @php
-                                    $j++;
-                                @endphp
-                                <tr>
-                                    <th scope="row">{{ $j }}</th>
-                                    <td>{{ $item->member_no }}</td>
-                                    <td>{{ ucwords($item->nama) }}</td>
-                                    <td>Rp {{ number_format($item->total, 0, '', '.') }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            <div class="card" style="height: 55vh">
+                <canvas id="myChart" width="400" height="150"></canvas>
+                <canvas id="myChart2" width="400" height="150"></canvas>
             </div>
         </div>
     </div>
@@ -106,4 +80,112 @@
             </div>
         </div>
     </div>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($visitMonth) !!},
+                datasets: [{
+                        label: 'Member',
+                        data: {!! json_encode($visitorData2) !!},
+                        backgroundColor: 'rgba(255,100,10, 0.2)',
+                        borderColor: 'rgba(0, 34, 236, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y',
+                        fill: true,
+                    },
+                    {
+                        label: 'Bukan Member',
+                        data: {!! json_encode($visitorData) !!},
+                        backgroundColor: 'rgba(100,255,10, 0.2)',
+                        borderColor: 'rgba(255,2,255,1)',
+
+                        borderWidth: 1,
+                        yAxisID: 'y',
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                stacked: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Rekap Pengunjung'
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                    },
+
+                }
+            },
+        });
+        var myChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($titleData) !!},
+                datasets: [{
+                    label: 'Jumlah peminjaman',
+                    data: {!! json_encode($borrowData) !!},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Rekap Peminjaman'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+
+                        }
+
+                    },
+                    x: {
+                        ticks: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

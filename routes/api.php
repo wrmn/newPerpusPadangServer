@@ -20,4 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get("/member/{no}", "GuestController@member");
 Route::get("/book/{no}", "GuestController@book");
-
+Route::get("/book/byddc/{ddc}/{no}", "GuestController@bookByDdc");
