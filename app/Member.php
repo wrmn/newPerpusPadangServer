@@ -37,4 +37,14 @@ class Member extends Model
     {
         return $this->hasMany('App\Visitor', 'member_no');
     }
+
+    public static function memberJobs()
+    {
+        return static::leftJoin(
+            'jobs',
+            'members.job_id',
+            '=',
+            'jobs.job_id'
+        );
+    }
 }

@@ -63,6 +63,13 @@ class GuestController extends Controller
         return view('guest.form', compact('jobsRes'));
     }
 
+    public function searchBook(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $result = Book::where('judul', 'LIKE', "%{$data['judul']}%")->where('penulis', 'LIKE', "%{$data['penulis']}%")->get();
+        return response()->json($result);
+    }
+
     public function guestPost()
     {
         $validator = Validator::make(request()->all(), [
