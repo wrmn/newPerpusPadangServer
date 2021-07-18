@@ -240,4 +240,16 @@ class MemberController extends Controller
 
         return view('admin.member.print',  compact('memberRes'));
     }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function fineMakerAlt($id)
+    {
+        $borrowRes = Borrow::find($id);
+        $borrowRes->status_denda = true;
+        $borrowRes->save();
+        return;
+    }
 }
