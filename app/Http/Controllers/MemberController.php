@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Member;
 use App\Job;
+use App\Borrow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,16 @@ class MemberController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $borrows = Borrow::get();
+        foreach ($borrows as $borrow) {
+            $date1 = date_create($borrow->tanggal_peminjaman);
+            $date2 = date_create(now());
+            $diff = date_diff($date1, $date2);
+            $sub = $diff->format("%a");
+            if ($sub > 10 && $borrow->tanggal_pengembalian == NULL) {
+                $this->fineMakerAlt($borrow->borrow_id);
+            }
+        }
     }
     /**
      * Menampilkan data member terverifikasi
@@ -63,7 +74,7 @@ class MemberController extends Controller
     {
         $memberRes = Member::find($no);
         if (!$memberRes) {
-            return redirect()->back()->withErrors("Member $no tidak ditemkan")->withInput();
+            return redirect()->back()->withErrors("Member $no tidak ditemukan")->withInput();
         }
         $visitRes = Member::find($no)->visitDetail()->orderBy('waktu_kunjungan', 'desc')->get();
         $borrowRes = Member::find($no)->borrowDetail()->orderBy('tanggal_peminjaman', 'desc')->get();

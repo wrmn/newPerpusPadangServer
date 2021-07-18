@@ -28,10 +28,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>No. Ik Jk</label>
+                                        <label>No. Induk</label>
                                         <input type="text"
                                             class="form-control{{ $errors->has('no_induk') ? ' is-invalid' : '' }}"
-                                            name="no_induk" @if ($edit ?? '') value ="{{ $bookkeepingRes->no_induk }}" readonly @elseif ($add ?? '') value="{{ old('no_induk') }}" @endif required autofocus
+                                            name="no_induk" @if ($edit ?? '') value ="{{ $bookkeepingRes->no_induk }}"  @elseif ($add ?? '') value="{{ old('no_induk') }}" @endif required autofocus
                                             oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                     </div>

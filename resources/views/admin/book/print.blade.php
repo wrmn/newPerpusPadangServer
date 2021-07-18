@@ -17,7 +17,7 @@
                     <td>{{ $bookRes->ddc }}.{{ $bookRes->no }}</td>
                 </tr>
                 <tr>
-                    <th scope="row">No. IK JK</th>
+                    <th scope="row">No. Induk</th>
                     <td>{{ $bookRes->no_induk }}</td>
                 </tr>
                 <tr>

@@ -27,7 +27,7 @@
                             @endphp
                             <table class="table">
                                 <tr>
-                                    <th scope="row" width="20%">No. IK JK</th>
+                                    <th scope="row" width="20%">No. Induk</th>
                                     <td>{{ $bookkeepingInfo->no_induk }}</td>
                                 </tr>
                                 <tr>

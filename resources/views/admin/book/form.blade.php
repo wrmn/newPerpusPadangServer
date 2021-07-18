@@ -64,7 +64,7 @@
                                 @endif
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="bookkeepingForm">No IK JK</label>
+                                        <label for="bookkeepingForm">No Induk</label>
                                         <select id="bookkeepingForm" class="form-control" name="no_induk">
                                             @if ($edit ?? '')
                                                 <option value="{{ $bookRes->no_induk }}" selected="selected">

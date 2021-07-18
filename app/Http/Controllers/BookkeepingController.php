@@ -143,7 +143,11 @@ class BookkeepingController extends Controller
     public function update($bookkeeping)
     {
         $validator = Validator::make(request()->all(), [
-            'no_induk' => 'required|max:40',
+            'no_induk' => array(
+                'required',
+                'unique:bookkeepings',
+                'regex:/^[\/0-9A-Z.]+$/u'
+            ),
             'tanggal' => 'required|max:255',
             'sumber' => 'required|max:255',
         ]);
@@ -154,6 +158,7 @@ class BookkeepingController extends Controller
         $link = str_replace("&", "/", $bookkeeping);
 
         $bookkeepingRes = Bookkeeping::find($link);
+        $bookkeepingRes->no_induk = request('no_induk');
         $bookkeepingRes->tanggal = request('tanggal');
         $bookkeepingRes->sumber = request('sumber');
         $bookkeepingRes->save();

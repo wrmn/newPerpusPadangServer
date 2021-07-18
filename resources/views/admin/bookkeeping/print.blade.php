@@ -10,7 +10,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">No. IK JK</th>
+                                    <th scope="col">No. Induk</th>
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Sumber</th>
                                     <th scope="col">Jumlah</th>

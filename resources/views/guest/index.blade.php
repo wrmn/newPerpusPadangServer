@@ -149,7 +149,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Rekap Peminjaman'
+                        text: 'Buku Yang sering Dipinjam'
                     }
                 },
                 scales: {
