@@ -19,7 +19,7 @@
                         @endif
                         @php
                             if ($edit ?? '') {
-                                $link = str_replace('/', '&', $bookkeepingRes->no_ik_jk);
+                                $link = str_replace('/', '&', $bookkeepingRes->no_induk);
                             }
                         @endphp
                         <form method="POST" @if ($edit ?? '') action="/admin/bookkeeping/edit/{{ $link }}"
@@ -30,8 +30,8 @@
                                     <div class="form-group">
                                         <label>No. Ik Jk</label>
                                         <input type="text"
-                                            class="form-control{{ $errors->has('no_ik_jk') ? ' is-invalid' : '' }}"
-                                            name="no_ik_jk" @if ($edit ?? '') value ="{{ $bookkeepingRes->no_ik_jk }}" readonly @elseif ($add ?? '') value="{{ old('no_ik_jk') }}" @endif required autofocus
+                                            class="form-control{{ $errors->has('no_induk') ? ' is-invalid' : '' }}"
+                                            name="no_induk" @if ($edit ?? '') value ="{{ $bookkeepingRes->no_induk }}" readonly @elseif ($add ?? '') value="{{ old('no_induk') }}" @endif required autofocus
                                             oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                     </div>

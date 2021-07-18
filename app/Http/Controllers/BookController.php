@@ -13,7 +13,7 @@ class BookController extends Controller
 {
     private $rule = [
         'ddc' => 'required|max:3|min:3',
-        'no_ik_jk' => 'required',
+        'no_induk' => 'required',
         'judul' => 'required|max:100',
         'penulis' => 'required|max:100',
         'harga' => 'required',
@@ -116,7 +116,7 @@ class BookController extends Controller
             $total++;
             $bookRes = new Book;
             $bookRes->ddc = request('ddc');
-            $bookRes->no_ik_jk = request('no_ik_jk');
+            $bookRes->no_induk = request('no_induk');
             $bookRes->no = $total;
             $bookRes->judul = request('judul');
             $bookRes->status = true;
@@ -189,7 +189,7 @@ class BookController extends Controller
 
         $bookRes = Book::find($book);
         $bookRes->ddc = request('ddc');
-        $bookRes->no_ik_jk = request('no_ik_jk');
+        $bookRes->no_induk = request('no_induk');
         $bookRes->judul = request('judul');
         $bookRes->penulis = request('penulis');
         $bookRes->harga = request('harga');

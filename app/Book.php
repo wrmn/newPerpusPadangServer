@@ -12,7 +12,7 @@ class Book extends Model
         'ddc',
         'judul',
         'penulis',
-        'no_ik_jk',
+        'no_induk',
         'status',
         'harga'
     ];
@@ -24,7 +24,7 @@ class Book extends Model
 
     public function bookkeepingDetail()
     {
-        return $this->belongsTo('App\Bookkeeping', 'no_ik_jk');
+        return $this->belongsTo('App\Bookkeeping', 'no_induk');
     }
 
     public static function bookType()

@@ -14,7 +14,7 @@ class bookSeeder extends Seeder
     public function run()
     {
         $bookkeepings = DB::table('bookkeepings')
-            ->select('no_ik_jk as id')
+            ->select('no_induk as id')
             ->get();
 
         $faker = Faker\Factory::create();
@@ -44,7 +44,7 @@ class bookSeeder extends Seeder
                 DB::table('books')->insert([
                     'no' => $total + 1,
                     'ddc' => $id,
-                    'no_ik_jk' => $bookkeeping->id,
+                    'no_induk' => $bookkeeping->id,
                     'judul' => $faker->realText(40),
                     'penulis' => $faker->name,
                     'harga' => $price * 1000,

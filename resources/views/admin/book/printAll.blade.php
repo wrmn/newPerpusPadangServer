@@ -28,7 +28,7 @@
                             <table class="table">
                                 <tr>
                                     <th scope="row" width="20%">No. IK JK</th>
-                                    <td>{{ $bookkeepingInfo->no_ik_jk }}</td>
+                                    <td>{{ $bookkeepingInfo->no_induk }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Tanggal</th>

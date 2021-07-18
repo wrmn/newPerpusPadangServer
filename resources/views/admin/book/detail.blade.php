@@ -22,8 +22,8 @@
                                 <td>{{ $bookRes->ddc }}.{{ $bookRes->no }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">No IK JK</th>
-                                <td>{{ $bookRes->no_ik_jk }}</td>
+                                <th scope="row">No Induk</th>
+                                <td>{{ $bookRes->book_id }}/{{ $bookRes->no_induk }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Kategori</th>

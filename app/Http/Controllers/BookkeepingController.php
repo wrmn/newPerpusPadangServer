@@ -29,7 +29,7 @@ class BookkeepingController extends Controller
 
         foreach ($bookkeepingsRes as $bookkeeping) {
             $bookCount = Book::select(DB::raw('count(*) as total'))
-                ->where('no_ik_jk', '=', $bookkeeping->no_ik_jk)
+                ->where('no_induk', '=', $bookkeeping->no_induk)
                 ->first();
 
             $bookkeeping->count = $bookCount->total;
@@ -49,7 +49,7 @@ class BookkeepingController extends Controller
 
         foreach ($bookkeepingsRes as $bookkeeping) {
             $bookCount = Book::select(DB::raw('count(*) as total'))
-                ->where('no_ik_jk', '=', $bookkeeping->no_ik_jk)
+                ->where('no_induk', '=', $bookkeeping->no_induk)
                 ->first();
 
             $bookkeeping->count = $bookCount->total;
@@ -78,7 +78,7 @@ class BookkeepingController extends Controller
     public function listBook($bookkeeping)
     {
         $link = str_replace("&", "/", $bookkeeping);
-        $booksRes = Book::where('no_ik_jk', $link)->paginate(10);
+        $booksRes = Book::where('no_induk', $link)->paginate(10);
 
         $bookkeepingInfo = Bookkeeping::find($link);
 
@@ -97,7 +97,7 @@ class BookkeepingController extends Controller
     public function store()
     {
         $validator = Validator::make(request()->all(), [
-            'no_ik_jk' => array(
+            'no_induk' => array(
                 'required',
                 'unique:bookkeepings',
                 'regex:/^[\/0-9A-Z.]+$/u'
@@ -109,10 +109,10 @@ class BookkeepingController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $bookkeeping = request('no_ik_jk');
+        $bookkeeping = request('no_induk');
 
         $bookkeepingRes = new Bookkeeping;
-        $bookkeepingRes->no_ik_jk = request('no_ik_jk');
+        $bookkeepingRes->no_induk = request('no_induk');
         $bookkeepingRes->tanggal = request('tanggal');
         $bookkeepingRes->sumber = request('sumber');
         $bookkeepingRes->save();
@@ -143,7 +143,7 @@ class BookkeepingController extends Controller
     public function update($bookkeeping)
     {
         $validator = Validator::make(request()->all(), [
-            'no_ik_jk' => 'required|max:40',
+            'no_induk' => 'required|max:40',
             'tanggal' => 'required|max:255',
             'sumber' => 'required|max:255',
         ]);
@@ -169,7 +169,7 @@ class BookkeepingController extends Controller
     public function printBook($bookkeeping)
     {
         $link = str_replace("&", "/", $bookkeeping);
-        $booksRes = Book::where('no_ik_jk', $link)->get();
+        $booksRes = Book::where('no_induk', $link)->get();
 
         $bookkeepingInfo = Bookkeeping::find($link);
 

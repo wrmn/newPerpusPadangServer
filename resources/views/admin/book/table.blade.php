@@ -18,16 +18,16 @@
                                         $id = "{$ddcInfo->ddc}";
                                     }
                                 @endphp
-                                                                href="{{ url("/admin/ddc/print/$id") }}" 
-                                                    
+                                                                            href="{{ url("/admin/ddc/print/$id") }}" 
+                                                                
                                             @elseif ($bookkeepingInfo ?? '') 
-                                                        @php
-                                                            $date = new DateTime($bookkeepingInfo->tanggal);
-                                                            $link = str_replace('/', '&', $bookkeepingInfo->no_ik_jk);
-                                                        @endphp
-                                                        href="{{ url("/admin/bookkeeping/print/$link") }}" 
+                                                                    @php
+                                                                        $date = new DateTime($bookkeepingInfo->tanggal);
+                                                                        $link = str_replace('/', '&', $bookkeepingInfo->no_induk);
+                                                                    @endphp
+                                                                    href="{{ url("/admin/bookkeeping/print/$link") }}" 
                                                         @else
-                                                                        href="{{ url('/admin/books/print') }}" @endif
+                                                                                    href="{{ url('/admin/books/print') }}" @endif
                                     class="btn btn-primary"> <i class="fa fa-file"></i>
                                     Cetak
                                     Laporan</a>
@@ -37,10 +37,10 @@
                                 @if ($ddcInfo ?? '')
                                     <a href="{{ url("/admin/book/new/ddc/$id") }}" class="btn btn-success">
 
-                                @elseif ($bookkeepingInfo ?? '')
-                                <a class="btn btn-success" hidden>
-                                    @else
-                                        <a href="{{ url('/admin/book/new') }}" class="btn btn-success">
+                                    @elseif ($bookkeepingInfo ?? '')
+                                        <a class="btn btn-success" hidden>
+                                        @else
+                                            <a href="{{ url('/admin/book/new') }}" class="btn btn-success">
                                 @endif
                                 <i class="fa fa-plus"></i>Tambah
                                 </a>
@@ -72,8 +72,8 @@
 
                             <table class="table">
                                 <tr>
-                                    <th scope="row" width="20%">No. IK JK</th>
-                                    <td>{{ $bookkeepingInfo->no_ik_jk }}</td>
+                                    <th scope="row" width="20%">No. Induk</th>
+                                    <td>{{ $bookkeepingInfo->no_induk }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Tanggal</th>
@@ -135,7 +135,8 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No</th>
+                                        <th scope="col">No Induk</th>
+                                        <th scope="col">DDC</th>
                                         <th scope="col">Judul</th>
                                         <th scope="col">Penulis</th>
                                         <th scope="col">Tersedia</th>
@@ -151,6 +152,7 @@
                                             
                                         @endphp
                                         <tr>
+                                            <th scope="row">{{ $item->book_id }}/{{ $item->no_induk }}</th>
                                             <th scope="row">{{ $ddcNo }}.{{ $item->no }}</th>
                                             <td>{{ $caseName }}</td>
                                             <td>{{ $caseAuth }}</td>

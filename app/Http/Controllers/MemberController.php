@@ -62,6 +62,9 @@ class MemberController extends Controller
     public function show($no)
     {
         $memberRes = Member::find($no);
+        if (!$memberRes) {
+            return redirect()->back()->withErrors("Member $no tidak ditemkan")->withInput();
+        }
         $visitRes = Member::find($no)->visitDetail()->orderBy('waktu_kunjungan', 'desc')->get();
         $borrowRes = Member::find($no)->borrowDetail()->orderBy('tanggal_peminjaman', 'desc')->get();
 

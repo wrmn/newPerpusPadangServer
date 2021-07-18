@@ -24,9 +24,9 @@ class CreateBooksTable extends Migration
                 ->onUpdate('cascade');
             $table->string('judul');
             $table->string('penulis');
-            $table->string('no_ik_jk');
-            $table->foreign('no_ik_jk')
-                ->references('no_ik_jk')
+            $table->string('no_induk');
+            $table->foreign('no_induk')
+                ->references('no_induk')
                 ->on('bookkeepings')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

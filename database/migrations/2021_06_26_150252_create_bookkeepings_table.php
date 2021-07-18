@@ -14,7 +14,7 @@ class CreateBookkeepingsTable extends Migration
     public function up()
     {
         Schema::create('bookkeepings', function (Blueprint $table) {
-            $table->string('no_ik_jk')->primary();
+            $table->string('no_induk')->primary();
             $table->date('tanggal');
             $table->string('sumber');
             $table->timestamps();

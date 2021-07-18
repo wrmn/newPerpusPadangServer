@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <th scope="row">No. IK JK</th>
-                    <td>{{ $bookRes->no_ik_jk }}</td>
+                    <td>{{ $bookRes->no_induk }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Tanggal Dibukukan</th>

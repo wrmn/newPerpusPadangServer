@@ -28,12 +28,12 @@
                                         $date = new DateTime($item->tanggal);
                                         $dateC = new DateTime($item->created_at);
                                         $dateU = new DateTime($item->updated_at);
-                                        $link = str_replace('/', '&', $item->no_ik_jk);
+                                        $link = str_replace('/', '&', $item->no_induk);
                                         
                                     @endphp
                                     <tr>
                                         <th scope="row">{{ $i }}</th>
-                                        <th>{{ $item->no_ik_jk }}</th>
+                                        <th>{{ $item->no_induk }}</th>
                                         <td>{{ $date->format('d M Y') }} </td>
                                         <td>{{ $item->sumber }}</td>
                                         <td>{{ $item->count }}</td>

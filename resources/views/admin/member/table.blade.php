@@ -30,7 +30,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>No</label>
-                                        <input type="number" class="form-control" name="no" @if (session('forms.no')) value="{{ session('forms.no') }}" @endif>
+                                        <input type="text" class="form-control" name="no" @if (session('forms.no')) value="{{ session('forms.no') }}" @endif>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

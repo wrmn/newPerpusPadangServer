@@ -65,14 +65,14 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="bookkeepingForm">No IK JK</label>
-                                        <select id="bookkeepingForm" class="form-control" name="no_ik_jk">
+                                        <select id="bookkeepingForm" class="form-control" name="no_induk">
                                             @if ($edit ?? '')
-                                                <option value="{{ $bookRes->no_ik_jk }}" selected="selected">
-                                                    {{ $bookRes->no_ik_jk }}</option>
+                                                <option value="{{ $bookRes->no_induk }}" selected="selected">
+                                                    {{ $bookRes->no_induk }}</option>
                                             @elseif($add??'')
                                                 @foreach ($bookkeepings as $bookkeeping)
-                                                    <option value="{{ $bookkeeping->no_ik_jk }}" @if (old('no_ik_jk') == $bookkeeping->no_ik_jk) selected="selected" @endif>
-                                                        {{ $bookkeeping->no_ik_jk }}</option>
+                                                    <option value="{{ $bookkeeping->no_induk }}" @if (old('no_induk') == $bookkeeping->no_induk) selected="selected" @endif>
+                                                        {{ $bookkeeping->no_induk }}</option>
                                                 @endforeach
                                             @endif
                                         </select>
