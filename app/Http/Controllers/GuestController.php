@@ -293,9 +293,11 @@ class GuestController extends Controller
         $memberRes->verivied = false;
         $memberRes->save();
 
+        $dataRes = Member::find($no);
+
         file_put_contents(public_path("images/picture/$cover.$ext"), $dataFoto);
         file_put_contents(public_path("images/identity/$cover.$ext2"), $dataId);
-        return response()->json(['ok' => 'ok'], 200);
+        return response()->json(['ok' => 'ok', 'data' => $dataRes], 200);
     }
 
     private function convPict(string $base64, string $type)
