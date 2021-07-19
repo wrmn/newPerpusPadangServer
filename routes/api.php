@@ -22,3 +22,5 @@ Route::get("/member/{no}", "GuestController@member");
 Route::get("/book/{no}", "GuestController@book");
 Route::get("/book/byddc/{ddc}/{no}", "GuestController@bookByDdc");
 Route::post("/book/search", "GuestController@searchBook");
+Route::get("/jobs", "GuestController@jobs");
+Route::post("/register", "GuestController@register");
