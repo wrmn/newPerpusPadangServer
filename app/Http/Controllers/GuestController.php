@@ -295,6 +295,9 @@ class GuestController extends Controller
 
         $dataRes = Member::find($no);
 
+        $job = Job::find($dataRes->job_id);
+        $dataRes->pekerjaan = $job->pekerjaan;
+
         file_put_contents(public_path("images/picture/$cover.$ext"), $dataFoto);
         file_put_contents(public_path("images/identity/$cover.$ext2"), $dataId);
         return response()->json(['ok' => 'ok', 'data' => $dataRes], 200);
