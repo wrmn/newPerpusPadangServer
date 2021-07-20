@@ -35,7 +35,7 @@
                                             @endif
                                         </th>
                                         <td>
-                                            {{ $item->nama }}
+                                            {{ ucwords($item->nama) }}
                                         </td>
                                         <td>
                                             {{ $item->pekerjaan }}

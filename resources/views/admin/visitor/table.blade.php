@@ -65,7 +65,7 @@
                                         </td>
                                         <td>
                                             <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                {{ $item->memberDetail->nama }}
+                                                {{ ucwords($item->memberDetail->nama) }}
                                             </a>
                                         </td>
                                         <td>{{ $date->format('H:i d M Y') }}</td>

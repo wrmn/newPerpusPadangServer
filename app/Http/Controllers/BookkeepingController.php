@@ -25,7 +25,8 @@ class BookkeepingController extends Controller
      */
     public function index()
     {
-        $bookkeepingsRes = Bookkeeping::paginate(10);
+        $bookkeepingsRes = Bookkeeping::orderBy('tanggal', 'desc')
+            ->paginate(10);
 
         foreach ($bookkeepingsRes as $bookkeeping) {
             $bookCount = Book::select(DB::raw('count(*) as total'))

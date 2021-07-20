@@ -264,13 +264,15 @@ class GuestController extends Controller
         }
 
         $cover = time() . '-id.';
-        $totalMember = Member::select(DB::raw('count(*) as total'))
-            ->where('status_terdaftar', '=', true)
+        $recentMember = Member::where('status_terdaftar', '=', true)
             ->where('verivied', '=', false)
+            ->orderBy('member_no', 'desc')
             ->first();
-        $count = $totalMember->total + 1;
 
-        $id = strval($count);
+
+        $msg = str_replace('REG.', "", $recentMember->member_no);
+        $id = intval($msg) + 1;
+
         while (strlen($id) != 8) {
             $id = "0$id";
         }

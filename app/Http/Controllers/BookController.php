@@ -39,7 +39,8 @@ class BookController extends Controller
         session()->forget('forms.title');
         session()->forget('forms.author');
         session()->put('forms.ddc', "10");
-        $booksRes = Book::orderBy('ddc', 'asc')
+        $booksRes = Book::orderBy("book_id","asc")
+            ->orderBy('ddc', 'asc')
             ->orderByRaw('abs(no) asc')
             ->paginate(10);
 
@@ -53,7 +54,8 @@ class BookController extends Controller
      */
     public function printAll()
     {
-        $booksRes = Book::orderBy('ddc', 'asc')
+        $booksRes = Book::orderBy("book_id")
+            ->orderBy('ddc', 'asc')
             ->orderByRaw('abs(no) asc')
             ->get();
 

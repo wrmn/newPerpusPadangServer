@@ -46,7 +46,8 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">No</th>
+                                        <th scope="col">No. Induk</th>
+                                        <th scope="col">DDc</th>
                                         <th scope="col">Judul</th>
                                         <th scope="col">Penulis</th>
                                         <th scope="col">Tersedia</th>
@@ -61,6 +62,7 @@
                                             
                                         @endphp
                                         <tr>
+                                            <th scope="row">{{ $item->book_id }}/{{ $item->no_induk }}</th>
                                             <th scope="row">{{ $ddcNo }}.{{ $item->no }}</th>
                                             <td>{{ $caseName }}</td>
                                             <td>{{ $caseAuth }}</td>

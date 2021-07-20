@@ -59,6 +59,7 @@ class MemberController extends Controller
         session()->forget('forms.name');
         $membersRes = Member::where('status_terdaftar', true)
             ->where('verivied', false)
+            ->orderBy('member_no', 'desc')
             ->paginate(10);
 
         return view('admin.member.table',  compact('membersRes'));
