@@ -24,8 +24,9 @@ class VisitorController extends Controller
     public function index()
     {
         $visitorsRes = Visitor::paginate(10);
+        $stats = 'all';
 
-        return view('admin.visitor.table',  compact('visitorsRes'));
+        return view('admin.visitor.table',  compact('visitorsRes', 'stats'));
     }
 
     /**
@@ -35,12 +36,12 @@ class VisitorController extends Controller
      */
     public function search()
     {
-
         if (request('bulan') && request('no')) {
             $nice = explode("-", request('bulan'));
+            $no = request('no');
             $visitorsRes = Visitor::whereMonth('waktu_kunjungan', $nice[1])
                 ->whereYear('waktu_kunjungan', $nice[0])
-                ->where('member_no', request('no'))
+                ->where('member_no', 'like', "%$no%")
                 ->orderBy('waktu_kunjungan', 'desc')
                 ->paginate(10)
                 ->appends(request()->query());
@@ -52,12 +53,21 @@ class VisitorController extends Controller
                 ->paginate(10)
                 ->appends(request()->query());
         } else {
-            $visitorsRes = Visitor::where('member_no', request('no'))
+            $no = request('no');
+            $visitorsRes = Visitor::where('member_no', 'like', "%$no%")
                 ->orderBy('waktu_kunjungan', 'desc')
                 ->paginate(10)
                 ->appends(request()->query());
         }
-        return view('admin.visitor.table',  compact('visitorsRes'));
+        if (request('type') == 2) {
+            $stats = "mem";
+        } else if (request('type') == 3) {
+            $stats = "nme";
+        } else {
+            $stats = "all";
+        }
+
+        return view('admin.visitor.table',  compact('visitorsRes', 'stats'));
     }
 
     /**

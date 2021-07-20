@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Pengarang</label>
+                                            <label>penulis</label>
                                             <input type="text" class="form-control" name="author" @if (session('forms.author')) value="{{ session('forms.author') }}" @endif>
                                         </div>
                                     </div>

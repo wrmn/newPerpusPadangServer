@@ -16,6 +16,16 @@
                                         <input type="number" class="form-control" name="no">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tipe</label>
+                                        <select name="type" class="form-control">
+                                            <option value="1">All</option>
+                                            <option value="2">Member</option>
+                                            <option value="3">Bukan Member</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -41,43 +51,45 @@
                                 @php
                                     $i = 0;
                                 @endphp
-
                                 @foreach ($visitorsRes as $item)
-                                    @php
-                                        $date = new DateTime($item->waktu_kunjungan);
-                                    @endphp
-                                    <tr>
-                                        <th>
-                                            @if ($item->memberDetail->status_terdaftar)
-                                                <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                    {{ $item->member_no }}
-                                                </a>
-                                            @else
-                                                -
-                                            @endif
-                                        </th>
-                                        <td>
-                                            @if ($item->memberDetail->status_terdaftar)
-                                                Member
-                                            @else
-                                                Non-Member
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ url("/admin/member/$item->member_no/detail") }}">
-                                                {{ ucwords($item->memberDetail->nama) }}
-                                            </a>
-                                        </td>
-                                        <td>{{ $date->format('H:i d M Y') }}</td>
-                                        <td width="10%">
-                                            <a href="{{ url("/member/$item->member_no") }}" class="btn btn-primary"
-                                                data-toggle="tooltip" data-placement="bottom" title="Lihat Member">
-                                                <i class="fa fa-eye">
 
-                                                </i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @if (($stats == 'mem' && $item->memberDetail->status_terdaftar) || ($stats == 'nme' && !$item->memberDetail->status_terdaftar) || $stats == 'all')
+                                        @php
+                                            $date = new DateTime($item->waktu_kunjungan);
+                                        @endphp
+                                        <tr>
+                                            <th>
+                                                @if ($item->memberDetail->status_terdaftar)
+                                                    <a href="{{ url("/admin/member/$item->member_no/detail") }}">
+                                                        {{ $item->member_no }}
+                                                    </a>
+                                                @else
+                                                    -
+                                                @endif
+                                            </th>
+                                            <td>
+                                                @if ($item->memberDetail->status_terdaftar)
+                                                    Member
+                                                @else
+                                                    Non-Member
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ url("/admin/member/$item->member_no/detail") }}">
+                                                    {{ ucwords($item->memberDetail->nama) }}
+                                                </a>
+                                            </td>
+                                            <td>{{ $date->format('H:i d M Y') }}</td>
+                                            <td width="10%">
+                                                <a href="{{ url("/member/$item->member_no") }}" class="btn btn-primary"
+                                                    data-toggle="tooltip" data-placement="bottom" title="Lihat Member">
+                                                    <i class="fa fa-eye">
+
+                                                    </i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

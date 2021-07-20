@@ -23,6 +23,16 @@ class GuestController extends Controller
             ->orderBy('waktu_kunjungan', 'desc')
             ->get();
 
+        $visitorMemRes = Visitor::whereMonth('waktu_kunjungan', $m)
+            ->whereYear('waktu_kunjungan', $y)
+            ->orderBy('waktu_kunjungan', 'desc')
+            ->get();
+
+        $visitorGueRes = Visitor::whereMonth('waktu_kunjungan', $m)
+            ->whereYear('waktu_kunjungan', $y)
+            ->orderBy('waktu_kunjungan', 'desc')
+            ->get();
+
         $memberLastSemester = Visitor::memberJobs()
             ->select(DB::raw("YEAR(waktu_kunjungan) AS 'year', MONTH(waktu_kunjungan) as month, MONTHNAME(waktu_kunjungan) as monthName"), DB::raw('count(*) as total'))
             ->where('members.verivied', '=', true)
