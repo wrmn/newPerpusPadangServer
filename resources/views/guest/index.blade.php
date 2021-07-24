@@ -76,7 +76,7 @@
     <div class="row gx-4 gx-lg-5 my-2 py-2">
         <div class="col-md-12 ">
             <div class="card">
-                <h3 class="font-weight-light">Untuk pendaftaran member akses di localhost:8080/register</h3>
+                <h3 class="font-weight-light">Untuk pendaftaran member akses di localhost:8080/</h3>
             </div>
         </div>
     </div>
@@ -163,7 +163,6 @@
                             }
 
                         }
-
                     },
                     x: {
                         ticks: {

@@ -55,7 +55,7 @@ class GuestController extends Controller
             ->select(DB::raw("books.judul"), DB::raw('count(*) as total'))
             ->groupBy("judul")
             ->orderBy("total", "desc")
-            ->limit(6)
+            ->limit(5)
             ->pluck('total', 'judul')->all();
 
         $visitMonth = (array_reverse(array_keys($visitorLastSemester)));

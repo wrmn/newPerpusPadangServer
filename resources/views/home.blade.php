@@ -17,12 +17,31 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <canvas id="myChart" height="200"></canvas>
+                        <div class="card-box bg-blue">
+                            <div class="inner">
+                                <h3> {{ $memberTotal->total }}</h3>
+                                <p> Total Member</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="card-box bg-green">
+                            <div class="inner">
+                                <h3> {{ $bookTotal->total }}</h3>
+                                <p> Total Buku </p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-book"></i>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="card-box bg-blue">
                             <div class="inner">
@@ -34,42 +53,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <canvas id="myChart2" height="200"></canvas>
-                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="card-box bg-blue">
-                    <div class="inner">
-                        <h3> {{ $memberTotal->total }}</h3>
-                        <p> Total Member</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-address-book-o"></i>
-                    </div>
-                </div>
+                <canvas id="myChart2" height="200"></canvas>
             </div>
             <div class="col-md-6">
-                <div class="card-box bg-green">
-                    <div class="inner">
-                        <h3> {{ $bookTotal->total }}</h3>
-                        <p> Total Buku </p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-address-book-o"></i>
-                    </div>
-                </div>
+                <canvas id="myChart" height="200"></canvas>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 invisible">
                 <canvas id="myChart3" height="150"></canvas>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 invisible">
                 <canvas id="myChart4" height="150"></canvas>
             </div>
         </div>
@@ -98,7 +98,14 @@
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
                     }
                 },
             }
@@ -141,8 +148,15 @@
                         type: 'linear',
                         display: true,
                         position: 'left',
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
                     },
-
                 }
             },
         });
