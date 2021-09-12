@@ -42,16 +42,14 @@
                                 <th scope="row" width="20%">Nama</th>
                                 <td>{{ $memberRes->nama }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">Tempat/Tanggal Lahir</th>
-                                <td>
-                                    @if ($memberRes->status_terdaftar)
+                            @if ($memberRes->status_terdaftar)
+                                <tr>
+                                    <th scope="row">Tempat/Tanggal Lahir</th>
+                                    <td>
                                         {{ $memberRes->tempat_lahir }} / {{ $dateB->format('d M Y') }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
                                 <th scope="row">Alamat</th>
                                 <td>{{ $memberRes->alamat }}</td>
@@ -64,26 +62,22 @@
                                 <th scope="row">Instansi</th>
                                 <td>{{ $memberRes->nama_instansi }}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">Nomor Telepon</th>
-                                <td>
-                                    @if ($memberRes->status_terdaftar)
+                            @if ($memberRes->status_terdaftar)
+                                <tr>
+                                    <th scope="row">Nomor Telepon</th>
+                                    <td>
                                         {{ $memberRes->telepon_no }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Nomor Identitas</th>
-                                <td>
-                                    @if ($memberRes->status_terdaftar)
+                                    </td>
+                                </tr>
+                            @endif
+                            @if ($memberRes->status_terdaftar)
+                                <tr>
+                                    <th scope="row">Nomor Identitas</th>
+                                    <td>
                                         {{ $memberRes->identitas_no }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endif
                         </table>
                         <div class="row">
                             <div class="col-lg-4">
@@ -138,7 +132,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">No. Member</th>
+                                            <th scope="col">No. Anggota</th>
                                             <th scope="col">Buku</th>
                                             <th scope="col">Terdenda</th>
                                             <th scope="col">Terbayar</th>

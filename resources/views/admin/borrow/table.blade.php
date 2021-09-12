@@ -38,7 +38,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">No. Member</th>
+                                    <th scope="col">No. Anggota</th>
                                     <th scope="col">Buku</th>
                                     <th scope="col">Terdenda</th>
                                     <th scope="col">Terbayar</th>

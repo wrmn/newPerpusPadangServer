@@ -10,6 +10,8 @@ use App\Borrow;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Exception;
+
 
 class GuestController extends Controller
 {
@@ -202,8 +204,7 @@ class GuestController extends Controller
     public function checkin($no)
     {
         $member = Member::find($no);
-
-        if (!$member) {
+        if (!$member || !$member->verivied) {
             return redirect()->back()->withErrors("Data member tidak ditemukan!");
         }
 
@@ -287,6 +288,10 @@ class GuestController extends Controller
             $id = "0$id";
         }
         $no = "REG.$id";
+        $diff = (date('Y') - date('Y', strtotime($data['tanggalLahir'])));
+        if ($diff < 7) {
+            return response()->json(['fail' => 'Belum mencapai batas usia yang ditentukan untuk mendaftar'], 400);
+        }
 
         $memberRes = new Member;
         $memberRes->member_no = $no;
@@ -303,16 +308,27 @@ class GuestController extends Controller
         $memberRes->created_at = now();
         $memberRes->status_terdaftar = true;
         $memberRes->verivied = false;
-        $memberRes->save();
+        // $memberRes->save();
 
-        $dataRes = Member::find($no);
+        $success = true;
 
-        $job = Job::find($dataRes->job_id);
-        $dataRes->pekerjaan = $job->pekerjaan;
+        try {
+            $memberRes->save();
+        } catch (Exception $exception) {
+            $success = false;
+        }
+        if ($success) {
+            $dataRes = Member::find($no);
 
-        file_put_contents(public_path("images/picture/$cover.$ext"), $dataFoto);
-        file_put_contents(public_path("images/identity/$cover.$ext2"), $dataId);
-        return response()->json(['ok' => 'ok', 'data' => $dataRes], 200);
+            $job = Job::find($dataRes->job_id);
+            $dataRes->pekerjaan = $job->pekerjaan;
+
+            file_put_contents(public_path("images/picture/$cover.$ext"), $dataFoto);
+            file_put_contents(public_path("images/identity/$cover.$ext2"), $dataId);
+            return response()->json(['ok' => 'ok', 'data' => $dataRes], 200);
+        } else {
+            return response()->json(['fail' => 'Data nomor hp atau identitas sudah digunakan'], 400);
+        }
     }
 
     private function convPict(string $base64, string $type)

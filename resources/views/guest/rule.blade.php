@@ -41,7 +41,7 @@
                 <div class="text-center col-lg-4">
                     <a class="btn btn-xl btn-outline-light" href="{{ url('/guest/register') }}">
                         <i class="fas fa-user me-2"></i>
-                        Daftar member
+                        Daftar Anggota
                     </a>
                 </div>
                 <div class="text-center col-lg-4">

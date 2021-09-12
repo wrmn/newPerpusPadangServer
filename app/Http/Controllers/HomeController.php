@@ -7,6 +7,7 @@ use App\Member;
 use App\Book;
 use App\Visitor;
 use App\Borrow;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -56,13 +57,11 @@ class HomeController extends Controller
 
 
         $borrowToday = Borrow::select(DB::raw('count(*) as total'))
-            ->where('tanggal_peminjaman', '=', now())
+            ->where('tanggal_peminjaman', '=', date('Y-m-d'))
             ->first();
 
         $visitorToday = Visitor::select(DB::raw('count(*) as total'))
-            ->whereDate('waktu_kunjungan', $d)
-            ->whereMonth('waktu_kunjungan', $m)
-            ->whereYear('waktu_kunjungan', $y)
+            ->whereDate('waktu_kunjungan', '=', date('Y-m-d'))
             ->first();
 
         $visitorRes = Visitor::whereMonth('waktu_kunjungan', $m)

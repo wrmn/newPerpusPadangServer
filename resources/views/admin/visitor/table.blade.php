@@ -21,8 +21,8 @@
                                         <label>Tipe</label>
                                         <select name="type" class="form-control">
                                             <option value="1">All</option>
-                                            <option value="2">Member</option>
-                                            <option value="3">Bukan Member</option>
+                                            <option value="2">Anggota</option>
+                                            <option value="3">Bukan Anggota</option>
                                         </select>
                                     </div>
                                 </div>
@@ -69,9 +69,9 @@
                                             </th>
                                             <td>
                                                 @if ($item->memberDetail->status_terdaftar)
-                                                    Member
+                                                    Anggota
                                                 @else
-                                                    Non-Member
+                                                    Bukan Anggota
                                                 @endif
                                             </td>
                                             <td>
@@ -81,8 +81,8 @@
                                             </td>
                                             <td>{{ $date->format('H:i d M Y') }}</td>
                                             <td width="10%">
-                                                <a href="{{ url("/member/$item->member_no") }}" class="btn btn-primary"
-                                                    data-toggle="tooltip" data-placement="bottom" title="Lihat Member">
+                                                <a href="{{ url("/admin/member/$item->member_no/detail") }}" class="btn btn-primary"
+                                                    data-toggle="tooltip" data-placement="bottom" title="Lihat Anggota">
                                                     <i class="fa fa-eye">
 
                                                     </i>

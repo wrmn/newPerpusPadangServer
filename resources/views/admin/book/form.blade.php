@@ -16,7 +16,8 @@
                                 </button>
                             </div>
                         @endif
-                        <form method="POST" @if ($edit ?? '') action="/admin/book/edit/{{ $bookRes->book_id }}"
+                        <form method="POST" @if ($edit ?? '')
+                            action="/admin/book/edit/{{ $bookRes->book_id }}"
                         @elseif($add ?? '') action="/admin/book/new" @endif
                             enctype="multipart/form-data">
                             @csrf
@@ -25,12 +26,12 @@
                                     <div class="form-group">
                                         <label for="ddcForm">DDC / Kategori / Sub-kategori</label>
 
-                                        <input type="number" name="ddc" list="ddcForm" class="form-control" @if ($edit ?? '') value = "{{ $bookRes->ddc }}" 
-                                        @elseif ($add ?? '') 
-                                                      @if ($ddc ?? '')
-                                        value="{{ $ddc }}"
-                                    @else
-                                        value="{{ old('ddc') }}" @endif
+                                        <input type="number" name="ddc" list="ddcForm" class="form-control" @if ($edit ?? '') value = "{{ $bookRes->ddc }}"
+                                    @elseif ($add ?? '')
+                                        @if ($ddc ?? '')
+                                            value="{{ $ddc }}"
+                                        @else
+                                            value="{{ old('ddc') }}" @endif
                                         @endif
                                         required autofocus
                                         oninvalid="this.setCustomValidity('Data dibutuhkan')"
@@ -56,8 +57,8 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Jumlah Buku</label>
-                                            <input type="number" class="form-control" name="total" value="1" required autofocus
-                                                oninvalid="this.setCustomValidity('Data dibutuhkan')"
+                                            <input type="number" class="form-control" name="total" value="1" required
+                                                autofocus oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                                 oninput="this.setCustomValidity('')">
                                         </div>
                                     </div>
@@ -69,11 +70,21 @@
                                             @if ($edit ?? '')
                                                 <option value="{{ $bookRes->no_induk }}" selected="selected">
                                                     {{ $bookRes->no_induk }}</option>
-                                            @elseif($add??'')
-                                                @foreach ($bookkeepings as $bookkeeping)
-                                                    <option value="{{ $bookkeeping->no_induk }}" @if (old('no_induk') == $bookkeeping->no_induk) selected="selected" @endif>
-                                                        {{ $bookkeeping->no_induk }}</option>
-                                                @endforeach
+                                            @else
+                                                @if ($bookkpng ?? '')
+                                                    @php
+                                                        $link = str_replace('&', '/', $bookkpng);
+                                                    @endphp
+
+                                                    <option value="{{ $link }}" selected="selected">
+                                                        {{ $link }}</option>
+                                                @else
+                                                    @foreach ($bookkeepings as $bookkeeping)
+                                                        <option value="{{ $bookkeeping->no_induk }}"
+                                                            @if (old('no_induk') == $bookkeeping->no_induk) selected="selected" @endif>
+                                                            {{ $bookkeeping->no_induk }}</option>
+                                                    @endforeach
+                                                @endif
                                             @endif
                                         </select>
                                     </div>
@@ -81,24 +92,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Judul</label>
-                                        <input type="text" class="form-control" name="judul" @if ($edit ?? '') value = "{{ $bookRes->judul }}" @elseif ($add ?? '') value="{{ old('judul') }}" @endif required autofocus
-                                            oninvalid="this.setCustomValidity('Data dibutuhkan')"
+                                        <input type="text" class="form-control" name="judul" @if ($edit ?? '') value = "{{ $bookRes->judul }}" @elseif ($add ?? '') value="{{ old('judul') }}" @endif
+                                            required autofocus oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Penulis</label>
-                                        <input type="text" class="form-control" name="penulis" @if ($edit ?? '') value = "{{ $bookRes->penulis }}" @elseif ($add ?? '') value="{{ old('penulis') }}" @endif required autofocus
-                                            oninvalid="this.setCustomValidity('Data dibutuhkan')"
+                                        <input type="text" class="form-control" name="penulis" @if ($edit ?? '') value = "{{ $bookRes->penulis }}" @elseif ($add ?? '') value="{{ old('penulis') }}" @endif
+                                            required autofocus oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Harga (Rp.)</label>
-                                        <input type="number" class="form-control" name="harga" @if ($edit ?? '') value = "{{ $bookRes->harga }}" @elseif ($add ?? '') value="{{ old('harga') }}" @endif required autofocus
-                                            oninvalid="this.setCustomValidity('Data dibutuhkan')"
+                                        <input type="number" class="form-control" name="harga" @if ($edit ?? '') value = "{{ $bookRes->harga }}" @elseif ($add ?? '') value="{{ old('harga') }}" @endif
+                                            required autofocus oninvalid="this.setCustomValidity('Data dibutuhkan')"
                                             oninput="this.setCustomValidity('')">
                                     </div>
                                 </div>

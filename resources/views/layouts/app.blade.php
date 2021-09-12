@@ -66,13 +66,13 @@
                     </ul>
                 </li>
                 <li>
-                    <div>Member</div>
+                    <div>Anggota</div>
                     <ul class="show collapse list-unstyled" id="pageSubmenu">
                         <li>
                             <a href="{{ url('/admin/members/unregistered') }}">Pendaftaran</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/members/registered') }}">List Member</a>
+                            <a href="{{ url('/admin/members/registered') }}">List Anggota</a>
                         </li>
                         <li>
                             <a href="{{ url('/admin/visitors') }}">Kunjungan</a>

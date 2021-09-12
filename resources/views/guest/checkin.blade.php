@@ -9,8 +9,8 @@
 
         <div class="col-lg-10">
             <h1 class="font-weight-heavy">Selamat Datang</h1>
-            <h4 class="font-weight-light">Silahkan Scan Kartu Member Anda</h4>
-            <h6 class="font-weight-light">atau masukkan nomor member anda</h6>
+            <h4 class="font-weight-light">Silahkan Scan Kartu Anggota Anda</h4>
+            <h6 class="font-weight-light">atau masukkan nomor anggota anda</h6>
         </div>
     </div>
     <div class="card">
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    No. member :
+                    No. Anggota :
                     <input type="text" class="form-control" name="member_no" id="member_no" value="M.">
                     <button class="btn btn-success" id="checkin">
                         <i class="fa fa-check"></i>

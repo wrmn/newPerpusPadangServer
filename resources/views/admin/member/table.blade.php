@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Pencarian
                         @if ($verif ?? '')
-                            Member
+                            Anggota
                             @php
                                 $stat = 'registered';
                             @endphp
@@ -68,14 +68,14 @@
                                             <td width="20%">
                                                 <a href="{{ url("/admin/member/$item->member_no/detail") }}"
                                                     class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                                                    title="Lihat Member">
+                                                    title="Lihat Anggota">
                                                     <i class="fa fa-eye">
 
                                                     </i>
                                                 </a>
                                                 <a href="{{ url("/admin/member/$item->member_no/edit") }}"
                                                     class="btn btn-primary" data-toggle="tooltip" data-placement="bottom"
-                                                    title="Edit Member">
+                                                    title="Edit Anggota">
                                                     <i class="fa fa-pencil">
 
                                                     </i>
@@ -84,7 +84,7 @@
                                                     <a class="btn btn-danger"
                                                         onclick="return confirm('Hapus data {{ $caseName }}?')"
                                                         href="{{ url("/admin/member/$item->member_no/delete") }}"
-                                                        data-toggle="tooltip" data-placement="bottom" title="Hapus Member">
+                                                        data-toggle="tooltip" data-placement="bottom" title="Hapus Anggota">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 @endif

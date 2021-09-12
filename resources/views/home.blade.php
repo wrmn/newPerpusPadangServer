@@ -20,7 +20,7 @@
                         <div class="card-box bg-blue">
                             <div class="inner">
                                 <h3> {{ $memberTotal->total }}</h3>
-                                <p> Total Member</p>
+                                <p> Total Anggota</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-user"></i>
@@ -115,7 +115,7 @@
             data: {
                 labels: {!! json_encode($visitMonth) !!},
                 datasets: [{
-                        label: 'Member',
+                        label: 'Anggota',
                         data: {!! json_encode($visitorData2) !!},
                         backgroundColor: 'rgba(255,100,10, 0.2)',
                         borderColor: 'rgba(0, 34, 236, 1)',
@@ -124,7 +124,7 @@
                         fill: true,
                     },
                     {
-                        label: 'Bukan Member',
+                        label: 'Bukan Anggota',
                         data: {!! json_encode($visitorData) !!},
                         backgroundColor: 'rgba(100,255,10, 0.2)',
                         borderColor: 'rgba(255,2,255,1)',

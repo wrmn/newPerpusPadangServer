@@ -123,22 +123,26 @@
                 const response = await fetch(`{{ url('/api/book') }}/${result[1]}`);
 
                 var data = await response.json();
-                if (ddcField && titleField) {
+                if (bookNoField && bookNameField) {
                     bookNoField.value = `${data.success.ddc}.${data.success.no}`;
                     bookNameField.innerHTML = capital(data.success.judul);
                 }
-                bookId = data.book_id;
+                bookId = data.success.book_id;
+                console.log(bookId)
             } else if (result[0] == "member") {
                 const response = await fetch(`{{ url('/api/member') }}/${result[1]}`);
 
                 var data = await response.json();
-                if (nameField && noField) {
+                if (memberNameField && memberNoField) {
                     memberNoField.value = data.success.member_no;
                     memberNameField.innerHTML = capital(data.success.nama);
                 }
                 memberNo = data.success.member_no;
+                console.log(memberNo)
             }
             if (memberNo && bookId) {
+                console.log(memberNo)
+                console.log(bookId)
                 window.location.href = `/admin/borrow/make/${memberNo}/${bookId}`;
             }
         }

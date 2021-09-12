@@ -9,8 +9,8 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">No. Member</th>
-                                    <th scope="col">Nama Member</th>
+                                    <th scope="col">No. Anggota</th>
+                                    <th scope="col">Nama Anggota</th>
                                     <th scope="col">Pekerjaan</th>
                                     <th scope="col">Waktu Kunjungan</th>
                                 </tr>

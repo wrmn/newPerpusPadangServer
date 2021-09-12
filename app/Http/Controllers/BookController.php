@@ -39,7 +39,7 @@ class BookController extends Controller
         session()->forget('forms.title');
         session()->forget('forms.author');
         session()->put('forms.ddc', "10");
-        $booksRes = Book::orderBy("book_id","asc")
+        $booksRes = Book::orderBy("book_id", "asc")
             ->orderBy('ddc', 'asc')
             ->orderByRaw('abs(no) asc')
             ->paginate(10);
@@ -86,6 +86,19 @@ class BookController extends Controller
         $ddcs = DDC::all();
         $add = true;
         return view('admin.book.form',  compact('bookkeepings', 'add', 'ddcs', 'ddc'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createWithBookkeeping($bookkpng)
+    {
+        $bookkeepings = Bookkeeping::all();
+        $ddcs = DDC::all();
+        $add = true;
+        return view('admin.book.form',  compact('bookkeepings', 'bookkpng', 'add', 'ddcs'));
     }
 
     /**

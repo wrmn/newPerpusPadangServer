@@ -15,10 +15,10 @@
             <h4 class="font-weight-light">Silahkan pilih metode Check-in</h4>
             <div class="row">
                 <a href="{{ url('/member') }}" class="col-md-5 mx-2 btn btn-success btn-lg">
-                    Member
+                    Anggota
                 </a>
                 <a href="{{ url('/guest') }}" class="col-md-5 btn btn-primary btn-lg">
-                    Bukan Member
+                    Bukan Anggota
                 </a>
             </div>
         </div>
@@ -51,9 +51,9 @@
                                     <td>{{ ucwords($item->memberDetail->nama) }}</td>
                                     <td>
                                         @if ($item->memberDetail->status_terdaftar == 1)
-                                            Member
+                                            Anggota
                                         @else
-                                            Bukan Member
+                                            Bukan Anggota
                                         @endif
                                     </td>
                                     <td width="50%">{{ $date->format('H:i d-M-Y') }}</td>
@@ -76,7 +76,7 @@
     <div class="row gx-4 gx-lg-5 my-2 py-2">
         <div class="col-md-12 ">
             <div class="card">
-                <h3 class="font-weight-light">Untuk pendaftaran member akses di localhost:8080/</h3>
+                <h3 class="font-weight-light">Untuk pendaftaran anggota akses di localhost:8080/</h3>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
             data: {
                 labels: {!! json_encode($visitMonth) !!},
                 datasets: [{
-                        label: 'Member',
+                        label: 'Anggota',
                         data: {!! json_encode($visitorData2) !!},
                         backgroundColor: 'rgba(255,100,10, 0.2)',
                         borderColor: 'rgba(0, 34, 236, 1)',
@@ -98,7 +98,7 @@
                         fill: true,
                     },
                     {
-                        label: 'Bukan Member',
+                        label: 'Bukan Anggota',
                         data: {!! json_encode($visitorData) !!},
                         backgroundColor: 'rgba(100,255,10, 0.2)',
                         borderColor: 'rgba(255,2,255,1)',
