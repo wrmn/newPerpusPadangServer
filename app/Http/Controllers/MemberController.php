@@ -146,8 +146,8 @@ class MemberController extends Controller
 
         if (request('identitas_file')) {
             $identitasFile = time() . '-id.' . request('identitas_file')->extension();
-            request('foto_file')->move(public_path('images/identity'), $identitasFile);
-            $memberRes->foto_file = $identitasFile;
+            request('identitas_file')->move(public_path('images/identity'), $identitasFile);
+            $memberRes->identitas_file = $identitasFile;
         }
 
         $memberRes->save();

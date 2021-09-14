@@ -280,9 +280,12 @@ class GuestController extends Controller
             ->orderBy('member_no', 'desc')
             ->first();
 
-
-        $msg = str_replace('REG.', "", $recentMember->member_no);
-        $id = intval($msg) + 1;
+        if ($recentMember) {
+            $msg = str_replace('REG.', "", $recentMember->member_no);
+            $id = intval($msg) + 1;
+        } else {
+            $id = 1;
+        }
 
         while (strlen($id) != 8) {
             $id = "0$id";
