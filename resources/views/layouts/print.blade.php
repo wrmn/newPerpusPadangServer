@@ -39,14 +39,35 @@
                 class="rounded float-left" alt="Responsive image" height="120px">
         </div>
         <div class="col-md-6 text-center">
-                <h3>Pemerintah Kota Padang</h3>
-                <h2>Dinas Perpustakaan dan Kearsipan Kota Padang</h2>
-                <div style="font-family:'Times New Roman'; font-size:12px;color:black;">Jalan Jendral. Sudirman No.1 Padang 25111 Telp (0751)-8950251 / Fax (0751)-811413</div>
-                <div style="font-family:'Times New Roman'; font-size:10px;color:red;">e-mail : dns.perpustakaan.kearsipan.pdg@gmail.com website: www.padang.go.id</div>
+            <h3>Pemerintah Kota Padang</h3>
+            <h2>Dinas Perpustakaan dan Kearsipan Kota Padang</h2>
+            <div style="font-family:'Times New Roman'; font-size:12px;color:black;">Jalan Jendral. Sudirman No.1 Padang
+                25111 Telp (0751)-8950251 / Fax (0751)-811413</div>
+            <div style="font-family:'Times New Roman'; font-size:10px;color:red;">e-mail :
+                dns.perpustakaan.kearsipan.pdg@gmail.com website: www.padang.go.id</div>
         </div>
     </div>
     <hr style="height:2px;border-width:4px;color:black;background-color:black">
     @yield('content')
+    <div class="row">
+
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+            <br>
+            Kepala Dinas Perpustakaan dan Kearsipan,
+            <br> <br> <br> <br>
+            ___________________
+        </div>
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-3">
+            Padang, {{ date_format(now(), 'd F Y') }}<br>
+            Pustakawan Mahir,
+            <br> <br> <br> <br>
+            ___________________
+        </div>
+    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -60,7 +81,6 @@
         await sleep(3000);
         window.print();
     }
-
 </script>
 
 </html>
